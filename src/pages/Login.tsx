@@ -31,7 +31,7 @@ const Login = () => {
       window.dispatchEvent(new Event("user_updated"));
       
       toast.success("Welcome back!");
-      navigate("/dashboard");
+      navigate("/select-domain");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
