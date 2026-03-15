@@ -8,13 +8,17 @@ import heroImage from "@/assets/hero-team.png";
 
 const BrandAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
   
-  // Scroll-based transforms
-  const scale = useTransform(scrollY, [0, 300], [1, 0.4]);
-  const taglineOpacity = useTransform(scrollY, [100, 400], [0, 1]);
-  const taglineY = useTransform(scrollY, [0, 400], [50, 0]);
-  const brandY = useTransform(scrollY, [0, 400], [0, -20]);
+  // Refined Scroll transforms using Progress for better sticky control
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
+  const taglineOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+  const taglineScale = useTransform(scrollYProgress, [0.2, 0.5], [0.8, 1]);
+  const brandOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+  const brandZ = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -40,80 +44,93 @@ const BrandAnimation = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full py-12 flex flex-col justify-center items-center overflow-hidden mb-8 min-h-[400px]"
+      className="relative w-full h-[150vh] mb-8"
     >
-      {/* Dynamic Tagline (Appears Behind) */}
-      <motion.div
-        className="absolute z-0 text-center pointer-events-none"
-        style={{
-          opacity: taglineOpacity,
-          y: taglineY,
-          scale: useTransform(scrollY, [0, 400], [0.8, 1])
-        }}
-      >
-        <h2 className="text-4xl md:text-6xl font-black text-primary/40 tracking-tight leading-none">
-          THE RIGHT PLACE TO GET HIRED
-        </h2>
-        <p className="text-xl md:text-2xl font-bold text-muted-foreground mt-2">
-          Vetted Excellence. Global Impact.
-        </p>
-      </motion.div>
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+        {/* Dynamic Tagline (Reveals Behind) */}
+        <motion.div
+          className="absolute z-0 text-center pointer-events-none"
+          style={{
+            opacity: taglineOpacity,
+            scale: taglineScale,
+            filter: useTransform(scrollYProgress, [0.1, 0.4], ["blur(10px)", "blur(0px)"]),
+          }}
+        >
+          <motion.h2 
+            className="text-5xl md:text-8xl font-black text-primary/30 tracking-tighter leading-none"
+            animate={{ 
+              opacity: [0.3, 0.6, 0.3],
+              textShadow: ["0 0 20px rgba(16,185,129,0)", "0 0 40px rgba(16,185,129,0.2)", "0 0 20px rgba(16,185,129,0)"]
+            }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            THE RIGHT PLACE TO GET HIRED
+          </motion.h2>
+          <p className="text-xl md:text-3xl font-bold text-muted-foreground/60 mt-4 tracking-widest uppercase">
+            Vetted Excellence. Global Impact.
+          </p>
+        </motion.div>
 
-      {/* Background Glow */}
-      <motion.div 
-        className="absolute w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none z-10"
-        style={{
-          left: useTransform(smoothX, (val) => val - 128),
-          top: useTransform(smoothY, (val) => val - 128),
-        }}
-      />
+        {/* Interactive Background Glow */}
+        <motion.div 
+          className="absolute w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-full pointer-events-none z-10"
+          style={{
+            left: useTransform(smoothX, (val) => val - 250),
+            top: useTransform(smoothY, (val) => val - 250),
+          }}
+        />
 
-      {/* Brand Mark with Scroll Scaling */}
-      <motion.div 
-        className="relative flex z-20"
-        style={{ scale, y: brandY, transformOrigin: "center center" }}
-      >
-        {text.split("").map((char, i) => {
-          const charRef = useRef<HTMLSpanElement>(null);
-          
-          return (
-            <motion.span
-              key={i}
-              ref={charRef}
-              className="text-7xl md:text-9xl font-black tracking-tighter cursor-default relative"
-              style={{
-                color: "#1a1a1a",
-                WebkitTextStroke: "1px rgba(0,0,0,0.1)",
-              }}
-            >
-              {/* Blurred Base */}
-              <span className="opacity-20 blur-sm">{char}</span>
-              
-              {/* Interactive Clear Overlayer */}
+        {/* Brand Mark with Sticky Scroll Scaling */}
+        <motion.div 
+          className="relative flex z-20"
+          style={{ 
+            scale, 
+            opacity: brandOpacity,
+            z: brandZ,
+            transformStyle: "preserve-3d"
+          }}
+        >
+          {text.split("").map((char, i) => {
+            const charRef = useRef<HTMLSpanElement>(null);
+            
+            return (
               <motion.span
-                className="absolute inset-0 text-foreground"
+                key={i}
+                ref={charRef}
+                className="text-7xl md:text-9xl font-black tracking-tighter cursor-default relative"
                 style={{
-                  clipPath: useTransform(
-                    [smoothX, smoothY],
-                    ([x, y]) => {
-                      if (!charRef.current) return `circle(0px at 0px 0px)`;
-                      const rect = charRef.current.getBoundingClientRect();
-                      const parentRect = containerRef.current!.getBoundingClientRect();
-                      const localX = (x as number) - (rect.left - parentRect.left);
-                      const localY = (y as number) - (rect.top - parentRect.top);
-                      const radius = 120 * (scale.get() < 0.6 ? 1.5 : 1); // Adjust bubble size when small
-                      return `circle(${radius}px at ${localX}px ${localY}px)`;
-                    }
-                  ),
-                  filter: "drop-shadow(0 0 20px rgba(16, 185, 129, 0.3))",
+                  color: "#1a1a1a",
+                  WebkitTextStroke: "1px rgba(0,0,0,0.1)",
                 }}
               >
-                {char}
+                {/* Blurred Base */}
+                <span className="opacity-20 blur-sm">{char}</span>
+                
+                {/* Interactive Clear Overlayer */}
+                <motion.span
+                  className="absolute inset-0 text-foreground"
+                  style={{
+                    clipPath: useTransform(
+                      [smoothX, smoothY],
+                      ([x, y]) => {
+                        if (!charRef.current) return `circle(0px at 0px 0px)`;
+                        const rect = charRef.current.getBoundingClientRect();
+                        const localX = (x as number) - rect.left;
+                        const localY = (y as number) - rect.top;
+                        const radius = 150 * (scale.get() || 1);
+                        return `circle(${radius}px at ${localX}px ${localY}px)`;
+                      }
+                    ),
+                    filter: "drop-shadow(0 0 20px rgba(16, 185, 129, 0.3))",
+                  }}
+                >
+                  {char}
+                </motion.span>
               </motion.span>
-            </motion.span>
-          );
-        })}
-      </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
     </div>
   );
 };
