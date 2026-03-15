@@ -17,48 +17,48 @@ const domains = [
     title: "Systems Architecture",
     icon: <Building2 className="h-8 w-8" />,
     desc: "Infrastructure scaling, cloud Native, and distributed systems logic.",
-    color: "from-blue-500/20 to-teal-500/20",
-    image: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d1?auto=format&fit=crop&q=80&w=800"
+    color: "from-blue-600/30 to-cyan-500/30",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "it_dev",
     title: "Full-Stack Ops",
     icon: <Cpu className="h-8 w-8" />,
     desc: "Next-gen web applications, neural interfaces, and API ecosystems.",
-    color: "from-purple-500/20 to-pink-500/20",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+    color: "from-purple-600/30 to-fuchsia-500/30",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "biotech",
     title: "Neural & Bio-Tech",
     icon: <Dna className="h-8 w-8" />,
     desc: "Bio-informatics, regenerative logic, and molecular simulation.",
-    color: "from-emerald-500/20 to-teal-500/20",
-    image: "https://images.unsplash.com/photo-1532187863486-abf9d39d9992?auto=format&fit=crop&q=80&w=800"
+    color: "from-emerald-600/30 to-teal-500/30",
+    image: "https://images.unsplash.com/photo-1530210124550-912dc1381cb8?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "marketing",
     title: "Global Intelligence",
     icon: <BarChart3 className="h-8 w-8" />,
     desc: "Predictive analytics, market sentiment, and neural branding.",
-    color: "from-orange-500/20 to-red-500/20",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+    color: "from-orange-600/30 to-rose-500/30",
+    image: "https://images.unsplash.com/photo-1551288049-bbbda5366391?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "creative",
     title: "Cinematic Editing",
     icon: <Video className="h-8 w-8" />,
     desc: "AI-assisted production, immersive visual effects, and story logic.",
-    color: "from-indigo-500/20 to-blue-500/20",
-    image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=800"
+    color: "from-indigo-600/30 to-violet-500/30",
+    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "security",
     title: "Cyber Security",
     icon: <ShieldCheck className="h-8 w-8" />,
     desc: "Zero-trust protocols, neural encryption, and packet-level defense.",
-    color: "from-red-500/20 to-orange-500/20",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+    color: "from-red-600/30 to-orange-500/30",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1200"
   }
 ];
 
