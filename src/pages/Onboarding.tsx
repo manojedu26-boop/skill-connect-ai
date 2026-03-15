@@ -1,25 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/hero-team.png";
+import VFXContainer from "@/components/VFXContainer";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BrandAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-  
-  // Refined Scroll transforms using Progress for better sticky control
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
-  const taglineOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
-  const taglineScale = useTransform(scrollYProgress, [0.2, 0.5], [0.8, 1]);
-  const brandOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-  const brandZ = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
-
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -44,98 +37,57 @@ const BrandAnimation = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[80vh] mb-4"
+      className="relative w-full py-12 flex justify-center items-center overflow-hidden mb-8"
     >
-      <div className="sticky top-0 h-[80vh] w-full flex flex-col justify-center items-center overflow-hidden bg-background/50 backdrop-blur-3xl rounded-3xl border border-white/5 mx-auto max-w-[95%]">
-        {/* Dynamic Tagline (Reveals Behind) */}
-        <motion.div
-          className="absolute z-0 text-center pointer-events-none"
-          style={{
-            opacity: taglineOpacity,
-            scale: taglineScale,
-            filter: useTransform(scrollYProgress, [0.1, 0.4], ["blur(10px)", "blur(0px)"]),
-          }}
-        >
-          <motion.h2 
-            className="text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-none"
-            animate={{ 
-              textShadow: ["0 0 10px rgba(16,185,129,0.1)", "0 0 30px rgba(16,185,129,0.3)", "0 0 10px rgba(16,185,129,0.1)"]
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-          >
-            THE RIGHT PLACE TO GET HIRED
-          </motion.h2>
-          <p className="text-lg md:text-2xl font-bold text-primary mt-4 tracking-[0.3em] uppercase opacity-80">
-            Vetted Excellence. Global Impact.
-          </p>
-        </motion.div>
+      {/* Background Glow */}
+      <motion.div 
+        className="absolute w-64 h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none"
+        style={{
+          left: useTransform(smoothX, (val) => val - 128),
+          top: useTransform(smoothY, (val) => val - 128),
+        }}
+      />
 
-        {/* 3D Neural Asset (Background Influence) */}
-        <motion.div 
-          className="absolute w-[400px] h-[400px] pointer-events-none z-10 opacity-40 mix-blend-screen"
-          style={{
-            left: useTransform(smoothX, (val) => val - 200),
-            top: useTransform(smoothY, (val) => val - 200),
-            scale: useTransform(scrollYProgress, [0, 0.5], [1, 1.5]),
-          }}
-        >
-           <img 
-             src="/cinematic_neural_orb_3d.png" 
-             alt="3D Neural Energy" 
-             className="w-full h-full object-contain blur-3xl"
-           />
-        </motion.div>
-
-        {/* Brand Mark with Sticky Scroll Scaling */}
-        <motion.div 
-          className="relative flex z-20"
-          style={{ 
-            scale: useTransform(scrollYProgress, [0, 0.5], [0.8, 0.25]), 
-            opacity: brandOpacity,
-            z: brandZ,
-            transformStyle: "preserve-3d"
-          }}
-        >
-          {text.split("").map((char, i) => {
-            const charRef = useRef<HTMLSpanElement>(null);
-            
-            return (
+      <div className="relative flex">
+        {text.split("").map((char, i) => {
+          const charRef = useRef<HTMLSpanElement>(null);
+          
+          return (
+            <motion.span
+              key={i}
+              ref={charRef}
+              className="text-7xl md:text-9xl font-black tracking-tighter cursor-default relative"
+              style={{
+                color: "#1a1a1a",
+                WebkitTextStroke: "1px rgba(0,0,0,0.1)",
+              }}
+            >
+              {/* Blurred Base */}
+              <span className="opacity-20 blur-sm">{char}</span>
+              
+              {/* Interactive Clear Overlayer */}
               <motion.span
-                key={i}
-                ref={charRef}
-                className="text-7xl md:text-9xl font-black tracking-tighter cursor-default relative"
+                className="absolute inset-0 text-foreground"
                 style={{
-                  color: "#1a1a1a",
-                  WebkitTextStroke: "1px rgba(0,0,0,0.1)",
+                  clipPath: useTransform(
+                    [smoothX, smoothY],
+                    ([x, y]) => {
+                      if (!charRef.current) return `circle(0px at 0px 0px)`;
+                      const rect = charRef.current.getBoundingClientRect();
+                      const parentRect = containerRef.current!.getBoundingClientRect();
+                      const localX = (x as number) - (rect.left - parentRect.left);
+                      const localY = (y as number) - (rect.top - parentRect.top);
+                      return `circle(120px at ${localX}px ${localY}px)`;
+                    }
+                  ),
+                  filter: "drop-shadow(0 0 20px rgba(16, 185, 129, 0.3))",
                 }}
               >
-                {/* Blurred Base */}
-                <span className="opacity-20 blur-sm">{char}</span>
-                
-                {/* Interactive Clear Overlayer */}
-                <motion.span
-                  className="absolute inset-0 text-foreground"
-                  style={{
-                    clipPath: useTransform(
-                      [smoothX, smoothY],
-                      ([x, y]) => {
-                        if (!charRef.current) return `circle(0px at 0px 0px)`;
-                        const rect = charRef.current.getBoundingClientRect();
-                        const localX = (x as number) - rect.left;
-                        const localY = (y as number) - rect.top;
-                        const radius = 150 * (scale.get() || 1);
-                        return `circle(${radius}px at ${localX}px ${localY}px)`;
-                      }
-                    ),
-                    filter: "drop-shadow(0 0 20px rgba(16, 185, 129, 0.3))",
-                  }}
-                >
-                  {char}
-                </motion.span>
+                {char}
               </motion.span>
-            );
-          })}
-        </motion.div>
+            </motion.span>
+          );
+        })}
       </div>
     </div>
   );
@@ -148,9 +100,37 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".hero-content", {
+        y: 100,
+        opacity: 0,
+        duration: 2,
+        ease: "power4.out",
+        stagger: 0.2
+      });
+
+      gsap.to(".parallax-bg", {
+        y: (i, el) => -100 * parseFloat(el.dataset.speed || "1"),
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+    <div ref={sectionRef} className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
+      <VFXContainer />
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
@@ -226,7 +206,7 @@ const Onboarding = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
+                className="hero-content inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>AI-Powered Marketplace v2.0 is live</span>
@@ -235,18 +215,18 @@ const Onboarding = () => {
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
+                transition={{ duration: 1 }}
+                className="hero-content text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] kinetic-text"
               >
                 Hire the top {" "}
                 <motion.span 
                   className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic"
                   animate={{ 
-                    scale: [1, 1.1, 1],
-                    filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+                    scale: [1, 1.05, 1],
+                    skewX: [-1, 1, -1],
                   }}
                   transition={{ 
-                    duration: 3, 
+                    duration: 4, 
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
@@ -257,10 +237,7 @@ const Onboarding = () => {
               </motion.h1>
 
               <motion.p 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-xl text-muted-foreground leading-relaxed max-w-xl"
+                className="hero-content text-xl text-muted-foreground leading-relaxed max-w-xl"
               >
                 Connect with vetted software engineers, designers, and project managers. SkillSwap uses Gemini AI to match you with perfection.
               </motion.p>
@@ -452,13 +429,45 @@ const Onboarding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-12">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
-          <div className="flex gap-8 text-sm font-medium text-muted-foreground">
-            <a href="#" className="hover:text-foreground">Terms</a>
-            <a href="#" className="hover:text-foreground">Privacy</a>
-            <a href="#" className="hover:text-foreground">Status</a>
+      <footer className="border-t border-white/5 py-12 relative overflow-hidden">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-12">
+            <div className="space-y-4">
+               <div className="flex items-center gap-2">
+                 <Sparkles className="h-6 w-6 text-primary" />
+                 <span className="text-xl font-black">SkillSwap</span>
+               </div>
+               <p className="text-sm text-muted-foreground max-w-xs">Building the future of human-capital interaction through neural-matching ecosystems.</p>
+            </div>
+            
+            {/* Hand-drawn Signature Effect */}
+            <div className="relative group cursor-pointer">
+              <svg width="200" height="80" viewBox="0 0 200 80" className="fill-none stroke-primary stroke-[2] stroke-round">
+                <motion.path
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  transition={{ duration: 2, ease: "easeInOut" }}
+                  d="M20,40 Q40,20 60,40 T100,40 T140,40 T180,40"
+                />
+                <motion.path
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }}
+                  d="M30,50 Q70,70 120,50 T170,50"
+                />
+              </svg>
+              <p className="absolute -bottom-2 right-0 text-[10px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 transition-opacity">Certified Excellence</p>
+            </div>
+            
+            <div className="flex gap-8 text-sm font-medium text-muted-foreground">
+              <a href="#" className="hover:text-foreground">Terms</a>
+              <a href="#" className="hover:text-foreground">Privacy</a>
+              <a href="#" className="hover:text-foreground">Status</a>
+            </div>
+          </div>
+          
+          <div className="mt-12 pt-8 border-t border-white/5 text-center">
+            <p className="text-xs text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
           </div>
         </div>
       </footer>
