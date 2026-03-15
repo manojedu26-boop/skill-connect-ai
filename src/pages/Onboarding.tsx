@@ -44,9 +44,9 @@ const BrandAnimation = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[150vh] mb-8"
+      className="relative w-full h-[80vh] mb-4"
     >
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+      <div className="sticky top-0 h-[80vh] w-full flex flex-col justify-center items-center overflow-hidden bg-background/50 backdrop-blur-3xl rounded-3xl border border-white/5 mx-auto max-w-[95%]">
         {/* Dynamic Tagline (Reveals Behind) */}
         <motion.div
           className="absolute z-0 text-center pointer-events-none"
@@ -57,34 +57,40 @@ const BrandAnimation = () => {
           }}
         >
           <motion.h2 
-            className="text-5xl md:text-8xl font-black text-primary/30 tracking-tighter leading-none"
+            className="text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-none"
             animate={{ 
-              opacity: [0.3, 0.6, 0.3],
-              textShadow: ["0 0 20px rgba(16,185,129,0)", "0 0 40px rgba(16,185,129,0.2)", "0 0 20px rgba(16,185,129,0)"]
+              textShadow: ["0 0 10px rgba(16,185,129,0.1)", "0 0 30px rgba(16,185,129,0.3)", "0 0 10px rgba(16,185,129,0.1)"]
             }}
             transition={{ duration: 4, repeat: Infinity }}
           >
             THE RIGHT PLACE TO GET HIRED
           </motion.h2>
-          <p className="text-xl md:text-3xl font-bold text-muted-foreground/60 mt-4 tracking-widest uppercase">
+          <p className="text-lg md:text-2xl font-bold text-primary mt-4 tracking-[0.3em] uppercase opacity-80">
             Vetted Excellence. Global Impact.
           </p>
         </motion.div>
 
-        {/* Interactive Background Glow */}
+        {/* 3D Neural Asset (Background Influence) */}
         <motion.div 
-          className="absolute w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-full pointer-events-none z-10"
+          className="absolute w-[400px] h-[400px] pointer-events-none z-10 opacity-40 mix-blend-screen"
           style={{
-            left: useTransform(smoothX, (val) => val - 250),
-            top: useTransform(smoothY, (val) => val - 250),
+            left: useTransform(smoothX, (val) => val - 200),
+            top: useTransform(smoothY, (val) => val - 200),
+            scale: useTransform(scrollYProgress, [0, 0.5], [1, 1.5]),
           }}
-        />
+        >
+           <img 
+             src="/cinematic_neural_orb_3d.png" 
+             alt="3D Neural Energy" 
+             className="w-full h-full object-contain blur-3xl"
+           />
+        </motion.div>
 
         {/* Brand Mark with Sticky Scroll Scaling */}
         <motion.div 
           className="relative flex z-20"
           style={{ 
-            scale, 
+            scale: useTransform(scrollYProgress, [0, 0.5], [0.8, 0.25]), 
             opacity: brandOpacity,
             z: brandZ,
             transformStyle: "preserve-3d"
