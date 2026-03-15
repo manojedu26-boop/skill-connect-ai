@@ -49,7 +49,7 @@ const freelancerNavItems = [
   { title: "My Proposals", url: "/my-proposals", icon: Bookmark },
   { title: "My Portfolio", url: "/my-portfolio", icon: Users },
   { title: "Messages", url: "/messages", icon: MessageSquare },
-  { title: "Earnings", url: "/freelancer-dashboard", icon: TrendingUp },
+  { title: "Earnings", url: "/earnings", icon: TrendingUp },
   { title: "AI Assistant", url: "/ai-assistant", icon: Sparkles },
   { title: "Pricing & Premium", url: "/pricing", icon: CreditCard },
   { title: "Settings", url: "/settings", icon: Settings },
@@ -288,12 +288,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </div>
                   </div>
                   <div className="max-h-[24rem] overflow-y-auto">
+                    {/* Notifications list items with clicks */}
                     {[
                       { icon: CheckCircle2, title: "Proposal Accepted", time: "2m ago", text: "TechCorp approved your E-commerce pitch.", color: "text-success", bg: "bg-success/5" },
                       { icon: Clock, title: "Interview Scheduled", time: "1h ago", text: "Zoom call with Sarah Chen at 3 PM PST.", color: "text-blue-500", bg: "bg-blue-500/5" },
                       { icon: AlertCircle, title: "Token Exiring", time: "5h ago", text: "Your premium access ends in 48 hours.", color: "text-orange", bg: "bg-orange/5" }
                     ].map((n, i) => (
-                      <div key={i} className="p-4 flex gap-4 hover:bg-slate-50 transition-colors cursor-pointer border-b border-slate-50 last:border-0">
+                      <div 
+                        key={i} 
+                        onClick={() => navigate("/messages")}
+                        className="p-4 flex gap-4 hover:bg-slate-50 transition-colors cursor-pointer border-b border-slate-50 last:border-0"
+                      >
                         <div className={`h-10 w-10 rounded-xl shrink-0 flex items-center justify-center ${n.bg}`}>
                           <n.icon className={`h-5 w-5 ${n.color}`} />
                         </div>

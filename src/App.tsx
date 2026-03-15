@@ -22,6 +22,8 @@ import SettingsPage from "./pages/Settings";
 import Pricing from "./pages/Pricing";
 import Portfolio from "./pages/Portfolio";
 import MyProposals from "./pages/MyProposals";
+import Earnings from "./pages/Earnings";
+import MarketStatus from "./pages/MarketStatus";
 import NotFound from "./pages/NotFound";
 import InteractiveBackground from "./components/InteractiveBackground";
 import FloatingBot from "./components/FloatingBot";

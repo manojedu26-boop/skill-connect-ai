@@ -8,8 +8,17 @@ export default function MyProposals() {
   const [proposals, setProposals] = useState<any[]>([]);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("skillswap_proposals") || "[]");
-    setProposals(saved);
+    const defaultProposals = [
+      { id: '1', projectTitle: 'E-commerce Platform Architecture', client: 'TechCorp', status: 'accepted', bidAmount: 1200, duration: '2 weeks', date: '2026-03-10', coverLetter: 'I can build a scalable Next.js architecture with proper state management...' },
+      { id: '2', projectTitle: 'AI Chatbot Integration', client: 'InnovateAI', status: 'submitted', bidAmount: 850, duration: '1 week', date: '2026-03-12', coverLetter: 'Highly experienced in OpenAI and Gemini API integrations...' }
+    ];
+    const saved = localStorage.getItem("skillswap_proposals");
+    if (!saved) {
+      localStorage.setItem("skillswap_proposals", JSON.stringify(defaultProposals));
+      setProposals(defaultProposals);
+    } else {
+      setProposals(JSON.parse(saved));
+    }
   }, []);
 
   const getStatusIcon = (status: string) => {
@@ -24,9 +33,17 @@ export default function MyProposals() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">My Proposals</h1>
-          <p className="text-muted-foreground">Track the status of your project applications.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">My Proposals</h1>
+            <p className="text-muted-foreground">Track the status of your project applications.</p>
+          </div>
+          <button 
+             onClick={() => (window as any).location.href = "/projects"}
+             className="rounded-2xl px-6 h-11 bg-teal text-white font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-teal/20"
+          >
+            Submit New Bid
+          </button>
         </div>
 
         <div className="grid gap-4">

@@ -12,7 +12,7 @@ const stats = [
   { label: "Proposals", value: "34", icon: FolderOpen, change: "+3 this week", color: "text-teal", url: "/my-proposals" },
   { label: "Contracts", value: "02", icon: Briefcase, change: "Steady", color: "text-navy", url: "/freelancer-dashboard" },
   { label: "Messages", value: "05", icon: MessageSquare, change: "Unread", color: "text-orange", url: "/messages" },
-  { label: "Earnings", value: "$4.2k", icon: TrendingUp, change: "+15%", color: "text-teal", url: "/freelancer-dashboard" },
+  { label: "Earnings", value: "$4.2k", icon: TrendingUp, change: "+15%", color: "text-teal", url: "/earnings" },
 ];
 
 const FreelancerDashboard = () => {
@@ -41,7 +41,10 @@ const FreelancerDashboard = () => {
              </div>
           </div>
           
-          <div className="md:col-span-4 bento-card bg-navy text-white flex flex-col justify-between group">
+          <div 
+             onClick={() => navigate("/market-status")}
+             className="md:col-span-4 bento-card bg-navy text-white flex flex-col justify-between group cursor-pointer hover:border-teal/30 transition-all active:scale-95"
+          >
              <div className="space-y-2">
                 <p className="text-[10px] font-black text-teal uppercase tracking-widest">Market Status</p>
                 <p className="text-2xl font-bold leading-snug">Elite Developer <br/>Demand is <span className="text-orange">High</span></p>
