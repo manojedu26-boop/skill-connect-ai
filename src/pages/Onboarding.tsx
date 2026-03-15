@@ -5,11 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/hero-team.png";
-import VFXContainer from "@/components/VFXContainer";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const BrandAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -100,30 +95,9 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Parallax effect for cards and background elements
-      gsap.to(".parallax-bg", {
-        y: (i, el) => -100 * parseFloat(el.dataset.speed || "1"),
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <div ref={sectionRef} className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
-      <VFXContainer />
+    <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
@@ -197,8 +171,8 @@ const Onboarding = () => {
             {/* Left Content */}
             <div className="space-y-8">
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
               >
                 <Sparkles className="h-4 w-4" />
@@ -206,18 +180,20 @@ const Onboarding = () => {
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
                 className="text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
               >
                 Hire the top {" "}
                 <motion.span 
                   className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic"
                   animate={{ 
-                    scale: [1, 1.05, 1],
+                    scale: [1, 1.1, 1],
+                    filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
                   }}
                   transition={{ 
-                    duration: 4, 
+                    duration: 3, 
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
@@ -228,8 +204,9 @@ const Onboarding = () => {
               </motion.h1>
 
               <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
                 className="text-xl text-muted-foreground leading-relaxed max-w-xl"
               >
                 Connect with vetted software engineers, designers, and project managers. SkillSwap uses Gemini AI to match you with perfection.
@@ -422,45 +399,13 @@ const Onboarding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-12 relative overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-12">
-            <div className="space-y-4">
-               <div className="flex items-center gap-2">
-                 <Sparkles className="h-6 w-6 text-primary" />
-                 <span className="text-xl font-black">SkillSwap</span>
-               </div>
-               <p className="text-sm text-muted-foreground max-w-xs">Building the future of human-capital interaction through neural-matching ecosystems.</p>
-            </div>
-            
-            {/* Hand-drawn Signature Effect */}
-            <div className="relative group cursor-pointer">
-              <svg width="200" height="80" viewBox="0 0 200 80" className="fill-none stroke-primary stroke-[2] stroke-round">
-                <motion.path
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                  d="M20,40 Q40,20 60,40 T100,40 T140,40 T180,40"
-                />
-                <motion.path
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }}
-                  d="M30,50 Q70,70 120,50 T170,50"
-                />
-              </svg>
-              <p className="absolute -bottom-2 right-0 text-[10px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 transition-opacity">Certified Excellence</p>
-            </div>
-            
-            <div className="flex gap-8 text-sm font-medium text-muted-foreground">
-              <a href="#" className="hover:text-foreground">Terms</a>
-              <a href="#" className="hover:text-foreground">Privacy</a>
-              <a href="#" className="hover:text-foreground">Status</a>
-            </div>
-          </div>
-          
-          <div className="mt-12 pt-8 border-t border-white/5 text-center">
-            <p className="text-xs text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
+      <footer className="border-t border-white/5 py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
+          <div className="flex gap-8 text-sm font-medium text-muted-foreground">
+            <a href="#" className="hover:text-foreground">Terms</a>
+            <a href="#" className="hover:text-foreground">Privacy</a>
+            <a href="#" className="hover:text-foreground">Status</a>
           </div>
         </div>
       </footer>
