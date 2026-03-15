@@ -1,10 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck } from "lucide-react";
+import { 
+  Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck, 
+  Brain, Rocket, Terminal, Zap, Cpu, Code, Star
+} from "lucide-react";
 import heroImage from "@/assets/hero-team.png";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { VFXCanvas } from "../components/VFXCanvas";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BrandAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -216,10 +224,9 @@ const Onboarding = () => {
               >
                 Hire the top {" "}
                 <motion.span 
-                  className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic"
+                  className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic kinetic-text cursor-pointer"
                   animate={{ 
-                    scale: [1, 1.1, 1],
-                    filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+                    scale: [1, 1.05, 1],
                   }}
                   transition={{ 
                     duration: 3, 
