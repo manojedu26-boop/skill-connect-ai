@@ -98,7 +98,7 @@ const FreelancerDashboard = () => {
            <div className="lg:col-span-4 bento-card bg-white p-8 flex flex-col justify-between group overflow-hidden relative">
               <div className="absolute -right-16 -bottom-16 w-48 h-48 bg-teal/5 rounded-full blur-3xl group-hover:bg-teal/10 transition-all" />
               <div className="space-y-4 relative z-10">
-                 <p className="text-[10px] font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                 <p className="text-xs font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
                     <Target className="h-4 w-4" /> Skill Gap Analysis
                  </p>
                  <div className="flex items-end justify-center h-24 gap-2">
@@ -113,7 +113,11 @@ const FreelancerDashboard = () => {
                  </div>
                  <p className="text-[11px] text-slate-500 font-medium leading-relaxed">Your <span className="text-orange font-bold">Next.js</span> proficiency is 15% below top-funded projects. Recommended: <span className="text-navy font-bold">"Server Components Masterclass"</span>.</p>
               </div>
-              <Button variant="outline" className="mt-6 w-full h-11 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:border-teal/50">
+              <Button 
+                onClick={() => navigate("/ai-assistant")}
+                variant="outline" 
+                className="mt-6 w-full h-11 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:border-teal/50"
+              >
                  OPTIMIZE STACK
               </Button>
            </div>
@@ -127,7 +131,7 @@ const FreelancerDashboard = () => {
               <div className="relative z-10 flex flex-col md:flex-row gap-10">
                  <div className="space-y-6 max-w-sm">
                     <div className="space-y-2">
-                       <p className="text-[10px] font-black text-teal uppercase tracking-[0.3em] flex items-center gap-2">
+                       <p className="text-sm font-black text-teal uppercase tracking-[0.3em] flex items-center gap-2">
                           <TrendingUp className="h-4 w-4" /> Capital Optimization
                        </p>
                        <h2 className="text-3xl font-black leading-tight">Financial Trajectory <br/>Optimizer</h2>
@@ -145,7 +149,11 @@ const FreelancerDashboard = () => {
                        </div>
                     </div>
 
-                    <Button variant="hero" className="w-full h-12 rounded-2xl bg-teal text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal/20 hover:scale-105 transition-all">
+                    <Button 
+                       onClick={() => navigate("/earnings")}
+                       variant="hero" 
+                       className="w-full h-12 rounded-2xl bg-teal text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal/20 hover:scale-105 transition-all"
+                    >
                        EXECUTE PIVOT STRATEGY
                     </Button>
                  </div>
@@ -216,7 +224,11 @@ const FreelancerDashboard = () => {
                     </div>
                  </div>
               </div>
-              <Button variant="outline" className="mt-8 w-full h-11 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:border-teal/50 hover:bg-slate-50 transition-all">
+              <Button 
+                onClick={() => navigate("/market-status")}
+                variant="outline" 
+                className="mt-8 w-full h-11 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:border-teal/50 hover:bg-slate-50 transition-all"
+              >
                  VERIFY MARKET NODES
               </Button>
            </div>
@@ -233,7 +245,12 @@ const FreelancerDashboard = () => {
             </div>
             <div className="space-y-4">
               {mockProjects.slice(0, 3).map(p => (
-                <ProjectCard key={p.id} project={p} />
+                <ProjectCard 
+                  key={p.id} 
+                  project={p} 
+                  onApply={() => navigate("/messages")}
+                  onBookmark={() => navigate("/bookmarks")}
+                />
               ))}
             </div>
           </div>
@@ -242,13 +259,25 @@ const FreelancerDashboard = () => {
             <div className="flex items-center justify-between px-2">
               <h2 className="text-2xl font-black text-navy">Recent Activity</h2>
             </div>
-            <div className="bento-card bg-white border border-slate-100 flex flex-col items-center justify-center text-center py-16">
-                <div className="h-20 w-20 rounded-full bg-slate-50 flex items-center justify-center mb-6">
-                   <Briefcase className="h-10 w-10 text-slate-300" />
-                </div>
-                <h3 className="text-xl font-bold text-navy">No new proposals</h3>
-                <p className="text-slate-500 text-sm max-w-[280px] mt-2 mb-8">You haven't applied to any projects in the last 48 hours.</p>
-                <Button onClick={() => navigate("/projects")} className="rounded-2xl px-8 h-12 bg-navy text-white hover:bg-navy/90 font-bold transition-all">Submit a Bid</Button>
+            <div className="space-y-4">
+                {[
+                  { title: "Proposal Submitted", detail: "Next-Gen Fintech Dashboard", time: "2h ago", icon: Target, color: "text-teal", bg: "bg-teal/5" },
+                  { title: "Interview Request", detail: "Global E-commerce Expansion", time: "5h ago", icon: MessageSquare, color: "text-orange", bg: "bg-orange/5" },
+                  { title: "Contract Finalized", detail: "AI Search Engine Audit", time: "1d ago", icon: Briefcase, color: "text-navy", bg: "bg-navy/5" }
+                ].map((act, i) => (
+                  <div key={i} className="bento-card bg-white border border-slate-100 p-4 flex items-center gap-4 hover:bg-slate-50 transition-all">
+                    <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${act.bg}`}>
+                      <act.icon className={`h-5 w-5 ${act.color}`} />
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-center w-full">
+                        <p className="text-xs font-black text-navy">{act.title}</p>
+                        <span className="text-[9px] font-bold text-slate-400 ml-12">{act.time}</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 font-medium truncate max-w-[180px]">{act.detail}</p>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
