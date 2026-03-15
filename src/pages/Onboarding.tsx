@@ -89,96 +89,6 @@ const BrandAnimation = () => {
 };
 
 
-const SplineBot = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // High damping and low stiffness for "slow, taking its own time" movement
-  const springConfig = { damping: 100, stiffness: 40 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  // Rotation values for the head/body to feel truly 3D
-  const rotateX = useTransform(smoothY, [0, 1000], [15, -15]);
-  const rotateY = useTransform(smoothX, [0, 1500], [-25, 25]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Offset so it follows but stays slightly clear of cursor
-      mouseX.set(e.clientX + 40);
-      mouseY.set(e.clientY + 40);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  return (
-    <motion.div
-      className="fixed z-[60] pointer-events-none"
-      style={{
-        left: smoothX,
-        top: smoothY,
-        perspective: "1200px"
-      }}
-    >
-      <motion.div
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative h-32 w-28"
-      >
-        {/* R4X Bot Structure */}
-        
-        {/* Glowing Head Dome (Translucent Gradient) */}
-        <motion.div 
-          className="absolute top-0 left-1/2 -ml-10 h-20 w-20 rounded-full bg-gradient-to-tr from-purple-500/80 via-rose-500/60 to-orange-400/40 border border-white/30 backdrop-blur-md shadow-[0_0_40px_rgba(236,72,153,0.3)] flex items-center justify-center overflow-hidden"
-          style={{ transform: "translateZ(30px)" }}
-        >
-          {/* Facial Screen / Eyes */}
-          <div className="flex gap-3 mt-2">
-             {[0, 1].map((i) => (
-               <motion.div 
-                 key={i}
-                 className="h-2 w-2 rounded-full bg-white shadow-[0_0_15px_#fff]"
-                 animate={{ 
-                   scaleY: [1, 1, 0.1, 1],
-                   opacity: [1, 1, 0.5, 1]
-                 }}
-                 transition={{ 
-                   duration: 4, 
-                   repeat: Infinity,
-                   repeatDelay: i * 0.8
-                 }}
-               />
-             ))}
-          </div>
-          
-          {/* Inner Neural Pulse */}
-          <motion.div 
-            className="absolute inset-0 bg-white/10 blur-xl"
-            animate={{ opacity: [0.1, 0.3, 0.1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-        </motion.div>
-
-        {/* Sphere Body (High-Reflectivity Finish) */}
-        <motion.div 
-          className="absolute -bottom-2 left-1/2 -ml-12 h-24 w-24 rounded-full bg-gradient-to-br from-slate-50 via-slate-200 to-slate-400 border border-white/50 shadow-2xl"
-          style={{ transform: "translateZ(0px)" }}
-        >
-           {/* Ambient Polish / Reflection */}
-           <div className="absolute top-4 left-6 w-8 h-8 bg-white/60 blur-md rounded-full" />
-           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/10 rounded-full" />
-        </motion.div>
-
-        {/* Shadow / Thruster Base */}
-        <motion.div 
-          className="absolute -bottom-8 left-1/2 -ml-8 h-4 w-16 bg-black/20 blur-xl rounded-full"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      </motion.div>
-    </motion.div>
-  );
-};
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -187,7 +97,6 @@ const Onboarding = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-      <SplineBot />
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
