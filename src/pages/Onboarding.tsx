@@ -11,6 +11,7 @@ import heroImage from "@/assets/hero-team.png";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { VFXCanvas } from "../components/VFXCanvas";
+import { WebDiagram } from "../components/WebDiagram";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -433,6 +434,9 @@ const Onboarding = () => {
           </div>
         </div>
       </section>
+
+      {/* 3D Pipeline Visualizer Section */}
+      <WebDiagram />
 
       {/* Footer */}
       <footer className="border-t border-white/5 py-12">
