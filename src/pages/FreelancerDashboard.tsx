@@ -193,7 +193,7 @@ const FreelancerDashboard = () => {
            <div className="lg:col-span-4 bento-card bg-white p-10 flex flex-col justify-between group overflow-hidden relative border border-slate-100">
               <div className="absolute -right-20 -top-20 w-48 h-48 bg-teal/5 rounded-full blur-3xl group-hover:bg-teal/10 transition-all" />
               <div className="space-y-6 relative z-10">
-                 <p className="text-[10px] font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                  <p className="text-sm font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
                     <Target className="h-4 w-4" /> Market Fit Neural Grid
                  </p>
                  
