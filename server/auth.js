@@ -1,37 +1,58 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { User } = require('./models');
+const { supabase } = require('./supabase');
 
 const router = express.Router();
-const JWT_SECRET = 'super-secret-skillswap-key-2026';
 
 // Register Route
 router.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password, role } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ error: 'Email already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      firstName,
-      lastName,
+    // 1. Sign up user in Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
-      password: hashedPassword,
-      role: role || 'freelancer'
+      password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          role: role || 'freelancer'
+        }
+      }
     });
 
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    if (authError) throw authError;
 
-    res.status(201).json({ token, user: { id: user.id, email: user.email, firstName: user.firstName, role: user.role } });
+    // 2. Create profile in 'profiles' table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([
+        { 
+          id: authData.user.id, 
+          first_name: firstName, 
+          last_name: lastName, 
+          email: email,
+          role: role || 'freelancer' 
+        }
+      ]);
+
+    if (profileError) {
+      console.error('Profile creation error:', profileError);
+      // We might want to delete the auth user here if profile fails, but let's keep it simple
+    }
+
+    res.status(201).json({ 
+      token: authData.session?.access_token, 
+      user: { 
+        id: authData.user.id, 
+        email: authData.user.email, 
+        firstName, 
+        role: role || 'freelancer' 
+      } 
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error during registration' });
+    console.error('Registration Error:', error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -40,22 +61,32 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
+    if (error) throw error;
 
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    // Fetch profile data
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', data.user.id)
+      .single();
 
-    res.json({ token, user: { id: user.id, email: user.email, firstName: user.firstName, role: user.role } });
+    res.json({ 
+      token: data.session.access_token, 
+      user: { 
+        id: data.user.id, 
+        email: data.user.email, 
+        firstName: profile?.first_name || 'User', 
+        role: profile?.role || 'freelancer' 
+      } 
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error during login' });
+    console.error('Login Error:', error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -66,14 +97,53 @@ router.get('/me', async (req, res) => {
     if (!authHeader) return res.status(401).json({ error: 'No token' });
     
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const { data: { user }, error } = await supabase.auth.getUser(token);
     
-    const user = await User.findByPk(decoded.id, { attributes: { exclude: ['password'] } });
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (error || !user) throw new Error('Invalid token');
 
-    res.json({ user });
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    res.json({ user: { ...user, ...profile } });
   } catch (error) {
     res.status(401).json({ error: 'Invalid token' });
+  }
+});
+
+// Update Profile
+router.patch('/profile', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: 'No token' });
+    
+    const token = authHeader.split(' ')[1];
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    
+    if (authError || !user) throw new Error('Invalid token');
+
+    const { domain, firstName, lastName } = req.body;
+    
+    const updateData = {};
+    if (domain) updateData.domain = domain;
+    if (firstName) updateData.first_name = firstName;
+    if (lastName) updateData.last_name = lastName;
+
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .update(updateData)
+      .eq('id', user.id)
+      .select()
+      .single();
+
+    if (profileError) throw profileError;
+
+    res.json({ user: { ...user, ...profile } });
+  } catch (error) {
+    console.error('Update Profile Error:', error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
