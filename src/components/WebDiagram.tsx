@@ -82,19 +82,20 @@ const LaserNode = ({ step, isActive }: { step: typeof steps[0], isActive: boolea
           {/* High-Fidelity Glass/Laser Material */}
           <MeshTransmissionMaterial
             backside
-            samples={4}
-            thickness={2}
-            chromaticAberration={0.05}
-            anisotropy={0.1}
-            distortion={0.1}
-            distortionScale={0.1}
+            samples={8}
+            thickness={3}
+            chromaticAberration={0.1}
+            anisotropy={0.2}
+            distortion={0.2}
+            distortionScale={0.2}
             temporalDistortion={0.1}
-            transmission={0.95}
-            color={isActive ? step.color : "#333"}
+            transmission={1}
+            color={isActive ? step.color : "#444"}
             emissive={step.color}
-            emissiveIntensity={isActive ? 12 : 0.5}
-            metalness={0.1}
+            emissiveIntensity={isActive ? 15 : 0.5}
+            metalness={0.2}
             roughness={0}
+            ior={1.5}
           />
         </RoundedBox>
 
@@ -157,8 +158,8 @@ export const WebDiagram = () => {
   return (
     <section className="relative w-full h-[900px] bg-[#020205] overflow-hidden flex items-center justify-center py-24">
       <div className="absolute top-16 text-center z-10 w-full px-6">
-        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2">SYNAPTIC MISSION FLOW</h2>
-        <p className="text-primary text-xs font-bold tracking-[0.3em] uppercase opacity-70">Real-time Pipeline Intelligence</p>
+        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2 drop-shadow-[4px_4px_10px_rgba(0,0,0,0.8)]">SYNAPTIC MISSION FLOW</h2>
+        <p className="text-primary text-sm font-black tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Real-time Pipeline Intelligence</p>
       </div>
 
       <div className="w-full h-full">
