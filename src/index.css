@@ -120,7 +120,8 @@
   }
 
   .bento-card {
-    @apply rounded-[2.5rem] bg-card p-6 border border-white/5 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)];
+    @apply rounded-[2.5rem] bg-card p-6 border border-white/5 transition-all duration-500;
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   }
   
