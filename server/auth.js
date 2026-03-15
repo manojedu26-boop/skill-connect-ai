@@ -9,6 +9,7 @@ router.post('/register', async (req, res) => {
     const { firstName, lastName, email, password, role } = req.body;
 
     // 1. Sign up user in Supabase Auth
+    console.log(`[Auth] Attempting sign up for: ${email}`);
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -21,9 +22,15 @@ router.post('/register', async (req, res) => {
       }
     });
 
-    if (authError) throw authError;
+    if (authError) {
+      console.error('[Auth Error]', authError);
+      throw authError;
+    }
+
+    console.log('[Auth Success] User ID:', authData.user?.id);
 
     // 2. Create profile in 'profiles' table
+    console.log('[DB] Creating profile...');
     const { error: profileError } = await supabase
       .from('profiles')
       .insert([
@@ -37,9 +44,12 @@ router.post('/register', async (req, res) => {
       ]);
 
     if (profileError) {
-      console.error('Profile creation error:', profileError);
-      // We might want to delete the auth user here if profile fails, but let's keep it simple
+      console.error('[DB Error]', profileError);
+      // Explicitly return error if profile fails to ensure we don't return "Success" falsely
+      return res.status(500).json({ error: 'Profile creation failed. Did you run the SQL script?', details: profileError.message });
     }
+
+    console.log('[DB Success] Profile linked.');
 
     res.status(201).json({ 
       token: authData.session?.access_token, 
