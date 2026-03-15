@@ -46,9 +46,9 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           )}
         </AnimatePresence>
 
-        <div className="h-10 flex items-center justify-center overflow-hidden">
+        <div className="flex items-center justify-center py-4">
           {showText && (
-            <div className="flex">
+            <div className="flex px-4">
               {appName.split("").map((char, index) => (
                 <motion.span
                   key={index}
