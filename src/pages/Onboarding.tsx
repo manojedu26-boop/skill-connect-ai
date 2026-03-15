@@ -90,6 +90,92 @@ const BrandAnimation = () => {
 
 
 
+const NexBot = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 40, stiffness: 120 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  // Deep 3D Head-Tracking Rotation
+  const rotateX = useTransform(smoothY, [0, 1000], [25, -25]);
+  const rotateY = useTransform(smoothX, [0, 1500], [-35, 35]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <div className="fixed top-24 right-10 z-[60] pointer-events-none w-64 h-80 perspective-2000">
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="relative w-full h-full flex items-center justify-center transform-gpu"
+      >
+        {/* NexBot Body - Sleek black silhouette */}
+        <motion.div 
+           className="absolute bottom-0 w-48 h-48 bg-gradient-to-t from-black to-zinc-900 rounded-t-[4rem] border-x border-t border-white/5 shadow-2xl"
+           style={{ transform: "translateZ(-20px)" }}
+        >
+           {/* Shoulder definition */}
+           <div className="absolute -left-4 top-10 w-16 h-24 bg-zinc-950 rounded-full blur-[2px]" />
+           <div className="absolute -right-4 top-10 w-16 h-24 bg-zinc-950 rounded-full blur-[2px]" />
+        </motion.div>
+
+        {/* NexBot Head - High-fidelity helmet */}
+        <motion.div
+          className="absolute top-4 w-32 h-40 bg-zinc-950 rounded-[4rem] border border-white/10 flex flex-col items-center justify-start overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+          style={{ transform: "translateZ(30px)" }}
+        >
+           {/* Visor Area */}
+           <div className="w-full h-[60%] bg-gradient-to-b from-zinc-900 to-black relative">
+              {/* Visor Glow */}
+              <div className="absolute inset-x-4 bottom-4 h-16 bg-zinc-800/20 rounded-2xl blur-md" />
+              
+              {/* Animated Neural Visor Pattern */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                 <div className="grid grid-cols-4 gap-1 opacity-20">
+                    {[...Array(16)].map((_, i) => (
+                       <motion.div 
+                          key={i} 
+                          className="w-1 h-1 bg-white rounded-full"
+                          animate={{ opacity: [0.1, 0.8, 0.1] }}
+                          transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+                       />
+                    ))}
+                 </div>
+              </div>
+
+              {/* Central Eye / Sensor */}
+              <motion.div 
+                className="absolute left-1/2 top-10 -ml-4 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"
+                animate={{ scale: [1, 1.05, 1], borderColor: ["rgba(255,255,255,0.1)", "rgba(255,255,255,0.4)", "rgba(255,255,255,0.1)"] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                 <motion.div 
+                   className="w-2 h-2 rounded-full bg-white shadow-[0_0_15px_#fff]"
+                   animate={{ scale: [1, 1.2, 1] }}
+                   transition={{ duration: 0.5, repeat: Infinity }}
+                 />
+              </motion.div>
+           </div>
+           
+           {/* Chin/Jaw definition */}
+           <div className="w-full h-[40%] bg-zinc-950 border-t border-white/5 opacity-80" />
+        </motion.div>
+
+        {/* Background Aura */}
+        <div className="absolute -inset-10 bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+      </motion.div>
+    </div>
+  );
+};
+
 const Onboarding = () => {
   const navigate = useNavigate();
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
@@ -97,6 +183,7 @@ const Onboarding = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      <NexBot />
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
