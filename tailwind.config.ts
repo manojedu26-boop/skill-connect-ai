@@ -14,8 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Inter Tight"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-        display: ['Montserrat', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -23,11 +22,6 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        "deep-space": {
-          DEFAULT: "hsl(var(--deep-space))",
-          lighter: "hsl(var(--deep-space-lighter))",
-        },
-        "emerald-glow": "hsl(var(--emerald-glow))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
