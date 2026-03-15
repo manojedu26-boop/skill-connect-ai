@@ -128,35 +128,53 @@ const DomainSelection = () => {
                 : 'border-slate-100 bg-navy shadow-xl shadow-navy/10 hover:shadow-2xl hover:shadow-navy/20'}`}
             style={{ transformStyle: "preserve-3d" }}
           >
-            {/* Background Image with High-Fidelity Overlay */}
-            <div className="absolute inset-0 z-0">
-              <img 
+            {/* Background Image with High-Fidelity "Pop" Overlay */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <motion.img 
                 src={domain.image} 
-                className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700" 
+                animate={{ 
+                  scale: isActive || selected === domain.id ? 1.4 : 1.1,
+                  opacity: isActive || selected === domain.id ? 0.9 : 0.6,
+                  filter: isActive || selected === domain.id ? "contrast(1.2) brightness(1.2)" : "contrast(1) brightness(0.8)"
+                }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="w-full h-full object-cover transition-all" 
               />
-              <div className="absolute inset-0 bg-[#0B1221]/90 group-hover:bg-[#0B1221]/80 transition-colors duration-500" />
-              <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay opacity-50`} />
+              <div className="absolute inset-0 bg-[#0B1221]/70 group-hover:bg-[#0B1221]/40 transition-colors duration-500" />
+              <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay opacity-40 group-hover:opacity-60 transition-opacity`} />
             </div>
 
-            <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(40px)" }}>
+            <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(60px)" }}>
               <div className="space-y-4">
-                <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-2xl">
+                <motion.div 
+                  animate={{ 
+                    scale: isActive ? 1.1 : 1,
+                    y: isActive ? -5 : 0
+                  }}
+                  className="h-14 w-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-2xl"
+                >
                   {domain.icon}
-                </div>
-                <h3 className="text-2xl font-black text-white tracking-tight">{domain.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed font-medium group-hover:text-slate-200 transition-colors">
+                </motion.div>
+                <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-lg">{domain.title}</h3>
+                <p className="text-slate-200 text-sm leading-relaxed font-bold group-hover:text-white transition-colors drop-shadow-md">
                   {domain.desc}
                 </p>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className={`text-[10px] font-black uppercase tracking-widest ${selected === domain.id ? 'text-primary' : 'text-slate-500'}`}>
+                <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${selected === domain.id ? 'text-primary' : 'text-slate-300'}`}>
                   {selected === domain.id ? 'Mission Locked' : 'Initialization Ready'}
                 </span>
-                <div className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
-                  ${selected === domain.id ? 'bg-primary border-primary text-white scale-110' : 'border-white/10 text-white group-hover:border-white/40'}`}>
+                <motion.div 
+                  animate={{ 
+                    x: isActive ? 5 : 0,
+                    scale: isActive ? 1.2 : 1
+                  }}
+                  className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
+                    ${selected === domain.id ? 'bg-primary border-primary text-white' : 'border-white/30 text-white group-hover:border-white/60'}`}
+                >
                   <ArrowRight className={`h-5 w-5 ${selected === domain.id ? 'animate-pulse' : ''}`} />
-                </div>
+                </motion.div>
               </div>
             </div>
 
