@@ -1,121 +1,194 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { LogIn, UserPlus, Search, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck } from "lucide-react";
+import heroImage from "@/assets/hero-team.png";
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#050810]">
-      {/* Cinematic Hero Background */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1522071823992-740eaa48cb3b?auto=format&fit=crop&q=80&w=2000" 
-          alt="Diverse Tech Team" 
-          className="w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-1000 scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050810]/80 via-transparent to-[#050810]" />
-      </div>
-
-      <div className="relative z-10 w-full max-w-4xl px-6 text-center">
-        {/* Subtle Branding */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center justify-center gap-3"
-        >
-          <div className="h-12 w-12 rounded-2xl bg-teal-gradient flex items-center justify-center shadow-lg shadow-teal/20">
-            <Sparkles className="h-7 w-7 text-white" />
+    <div className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+      {/* Premium Glassmorphism Navbar */}
+      <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald">
+              <Sparkles className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-foreground">SkillSwap</span>
           </div>
-          <span className="text-3xl font-black tracking-tighter text-white">SkillSwap</span>
-        </motion.div>
-
-        {/* Massive Headline */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-10 text-6xl md:text-8xl font-black text-white tracking-tight leading-[0.9] font-['Montserrat'] uppercase"
-        >
-          The Future of Hiring, <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D1FF] to-[#0094FF]">Centered on You.</span>
-        </motion.h1>
-
-        {/* The Power Pod */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          className="mx-auto max-w-2xl obsidian-pod rounded-[3.5rem] p-10 md:p-14 space-y-8 neon-blue-glow relative group overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#00D1FF]/5 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
           
-          <div className="relative z-10 space-y-4">
-            <h2 className="text-xl font-bold text-slate-300 tracking-widest uppercase">Select Your Gateway</h2>
-            <div className="grid md:grid-cols-3 gap-6 pt-4">
-              <Button 
-                onClick={() => navigate("/login")}
-                className="h-20 rounded-3xl bg-white/10 hover:bg-white/20 border border-white/10 flex flex-col items-center justify-center gap-2 group/btn transition-all hover:scale-105"
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
+            <a href="#" className="hover:text-primary transition-colors">Find Talent</a>
+            <a href="#" className="hover:text-primary transition-colors">Find Work</a>
+            <a href="#" className="hover:text-primary transition-colors">Enterprise</a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" className="font-semibold" onClick={() => navigate("/login")}>Log in</Button>
+            <Button variant="hero" className="rounded-full px-6 neon-glow-blue" onClick={() => navigate("/register")}>Join Free</Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Centered Hero Section */}
+      <main className="flex-1 relative flex items-center justify-center p-6 overflow-hidden">
+        {/* Background Decorative Elements */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px] animate-pulse delay-1000" />
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 w-full max-w-2xl"
+        >
+          {/* Main Floating Glass Card */}
+          <div className="glass-dark border border-white/10 rounded-[3rem] p-10 md:p-16 shadow-2xl backdrop-blur-3xl text-center space-y-10">
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary uppercase tracking-widest"
               >
-                <LogIn className="h-6 w-6 text-[#00D1FF] group-hover/btn:scale-110 transition-transform" />
-                <span className="text-xs font-black tracking-widest uppercase">Log In</span>
-              </Button>
-              
+                <Sparkles className="h-4 w-4" />
+                <span>Next-Gen Marketplace</span>
+              </motion.div>
+
+              <motion.h1 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl md:text-6xl font-black tracking-tighter leading-tight"
+              >
+                Elite Talent. <br />
+                <span className="text-teal">Perfectly Matched.</span>
+              </motion.h1>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-md mx-auto"
+              >
+                The world's first AI-powered skill exchange. Hire the top 1% or swap skills to accelerate your mission.
+              </motion.p>
+            </div>
+
+            {/* Glowing Search Bar */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="relative group w-full"
+            >
+              <div className="absolute -inset-1 rounded-[2rem] bg-teal-gradient opacity-10 blur-xl group-hover:opacity-20 transition-opacity" />
+              <div className="relative flex items-center bg-white/5 rounded-[2rem] border border-white/10 p-2 shadow-2xl">
+                <Search className="ml-5 h-5 w-5 text-muted-foreground" />
+                <Input 
+                  placeholder="Senior React Engineer..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="border-none bg-transparent text-sm md:text-base focus-visible:ring-0 placeholder:text-muted-foreground/50 h-10 md:h-12"
+                />
+                <Button variant="hero" className="rounded-full h-10 py-0 px-6 font-bold gap-2 text-xs">
+                  Search <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Direct Action Card (Auth Buttons) */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+            >
               <Button 
                 onClick={() => navigate("/register")}
-                className="h-20 rounded-3xl bg-teal-gradient shadow-lg shadow-teal/20 flex flex-col items-center justify-center gap-2 group/btn transition-all hover:scale-105"
+                className="w-full sm:w-auto rounded-2xl px-10 h-14 bg-teal-gradient text-white font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-lg shadow-teal/20"
               >
-                <UserPlus className="h-6 w-6 text-white group-hover/btn:scale-110 transition-transform" />
-                <span className="text-xs font-black tracking-widest uppercase">Sign Up</span>
+                Get Started
               </Button>
-
               <Button 
-                onClick={() => navigate("/projects")}
-                className="h-20 rounded-3xl bg-white/5 hover:bg-white/10 border border-white/5 flex flex-col items-center justify-center gap-2 group/btn transition-all hover:scale-105"
+                variant="ghost"
+                onClick={() => navigate("/login")}
+                className="w-full sm:w-auto rounded-2xl px-10 h-14 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-xs transition-all"
               >
-                <Search className="h-6 w-6 text-slate-400 group-hover/btn:scale-110 transition-transform" />
-                <span className="text-xs font-black tracking-widest uppercase">Job Postings</span>
+                Log In
               </Button>
-            </div>
+            </motion.div>
+
+            {/* Platform Stats */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="pt-6 border-t border-white/5 flex items-center justify-center gap-8"
+            >
+               <div className="text-center">
+                  <p className="text-xl font-black text-white">$140M+</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Earned</p>
+               </div>
+               <div className="w-px h-8 bg-white/5" />
+               <div className="text-center">
+                  <p className="text-xl font-black text-white">12k+</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Vetted</p>
+               </div>
+               <div className="w-px h-8 bg-white/5" />
+               <div className="text-center">
+                  <p className="text-xl font-black text-white">4.9/5</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Rating</p>
+               </div>
+            </motion.div>
           </div>
-
-          <p className="relative z-10 text-sm text-slate-400 font-medium">
-             Trusted by over 50,000+ elite engineers and forward-thinking companies worldwide.
-          </p>
         </motion.div>
+      </main>
 
-        {/* Subtle Bottom Accent */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
-          transition={{ delay: 1 }}
-          className="mt-16 text-[10px] tracking-[0.4em] font-black text-slate-500 uppercase"
-        >
-          Secured by Gemini AI Protocol v2.5
-        </motion.div>
-      </div>
+      {/* Feature Grid */}
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: <Globe />, title: "Borderless Talent", desc: "Hire from anywhere. We handle contracts, payments, and compliance." },
+              { icon: <Users />, title: "Skill Exchange", desc: "The only platform where freelancers swap tasks to accelerate delivery." },
+              { icon: <Sparkles />, title: "AI Project Manager", desc: "Gemini AI breaks down your requirements into actionable milestones." }
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="group p-8 rounded-3xl border border-white/5 bg-card/50 hover:bg-card hover:border-primary/30 transition-all cursor-default"
+              >
+                <div className="mb-4 h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Decorative anti-gravity particles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{
-            y: [0, -40, 0],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 8 + i * 2,
-            repeat: Infinity,
-            delay: i * 1.5,
-          }}
-          className="absolute h-1 w-1 bg-[#00D1FF] rounded-full blur-[2px]"
-          style={{
-            left: `${20 + i * 15}%`,
-            top: `${30 + (i % 3) * 20}%`,
-          }}
-        />
-      ))}
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-12">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
+          <div className="flex gap-8 text-sm font-medium text-muted-foreground">
+            <a href="#" className="hover:text-foreground">Terms</a>
+            <a href="#" className="hover:text-foreground">Privacy</a>
+            <a href="#" className="hover:text-foreground">Status</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

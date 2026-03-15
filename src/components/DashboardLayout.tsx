@@ -38,7 +38,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import PremiumPaymentModal from "./PremiumPaymentModal";
-import Aura from "./Aura";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -332,13 +331,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                  </div>
               </div>
             </div>
+            <div className="neon-progress-rail w-full shrink-0" />
           </header>
           
           <main className="flex-1 overflow-auto p-8 lg:p-10 space-y-10">
             {children}
           </main>
         </div>
-        <Aura />
       </div>
     </SidebarProvider>
   );
