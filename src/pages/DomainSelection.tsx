@@ -84,11 +84,11 @@ const DomainSelection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center p-6 sm:p-12 overflow-hidden relative">
-      {/* Background Glows */}
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 sm:p-12 overflow-hidden relative">
+      {/* Subtle Background Elements for White Theme */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-500/10 blur-[120px] rounded-full" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-500/5 blur-[120px] rounded-full" />
       </div>
 
       <motion.div 
@@ -96,13 +96,13 @@ const DomainSelection = () => {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-6xl w-full relative z-10 text-center space-y-4 mb-16"
       >
-        <span className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+        <span className="px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-primary text-[10px] font-black uppercase tracking-[0.3em]">
           Initialization Phase II
         </span>
-        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight">
-          Select Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-400">Mission Domain</span>
+        <h1 className="text-4xl md:text-6xl font-black text-navy tracking-tight">
+          Select Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-600">Mission Domain</span>
         </h1>
-        <p className="text-slate-400 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
+        <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
           The neural network requires a sector anchor to optimize your professional trajectory. 
           Which field defines your expertise?
         </p>
@@ -122,29 +122,29 @@ const DomainSelection = () => {
               transition: { duration: 0.2 }
             }}
             onClick={() => handleSelection(domain.id)}
-            className={`group relative h-[320px] cursor-pointer rounded-[2rem] border overflow-hidden transition-all duration-500 transform-gpu perspective-1000
+            className={`group relative h-[320px] cursor-pointer rounded-[2.5rem] border overflow-hidden transition-all duration-500 transform-gpu perspective-1000
               ${selected === domain.id 
-                ? 'border-primary ring-2 ring-primary/50' 
-                : 'border-white/10 hover:border-white/30 bg-white/5'}`}
+                ? 'border-primary ring-4 ring-primary/20 bg-navy' 
+                : 'border-slate-100 bg-navy shadow-xl shadow-navy/10 hover:shadow-2xl hover:shadow-navy/20'}`}
             style={{ transformStyle: "preserve-3d" }}
           >
-            {/* Background Image */}
+            {/* Background Image with High-Fidelity Overlay */}
             <div className="absolute inset-0 z-0">
               <img 
                 src={domain.image} 
-                className="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-700" 
+                className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-700" 
               />
-              <div className={`absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent`} />
-              <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay`} />
+              <div className="absolute inset-0 bg-[#0B1221]/90 group-hover:bg-[#0B1221]/80 transition-colors duration-500" />
+              <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay opacity-50`} />
             </div>
 
             <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(40px)" }}>
               <div className="space-y-4">
-                <div className={`h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-500 shadow-xl`}>
+                <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-2xl">
                   {domain.icon}
                 </div>
                 <h3 className="text-2xl font-black text-white tracking-tight">{domain.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed font-medium group-hover:text-white/80 transition-colors">
+                <p className="text-slate-400 text-sm leading-relaxed font-medium group-hover:text-slate-200 transition-colors">
                   {domain.desc}
                 </p>
               </div>
@@ -154,14 +154,14 @@ const DomainSelection = () => {
                   {selected === domain.id ? 'Mission Locked' : 'Initialization Ready'}
                 </span>
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
-                  ${selected === domain.id ? 'bg-primary border-primary text-white' : 'border-white/10 text-white group-hover:border-white/40'}`}>
+                  ${selected === domain.id ? 'bg-primary border-primary text-white scale-110' : 'border-white/10 text-white group-hover:border-white/40'}`}>
                   <ArrowRight className={`h-5 w-5 ${selected === domain.id ? 'animate-pulse' : ''}`} />
                 </div>
               </div>
             </div>
 
-            {/* Glass shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
+            {/* Premium Shine Effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
           </motion.div>
         ))}
       </div>
