@@ -88,6 +88,94 @@ const BrandAnimation = () => {
   );
 };
 
+
+const SplineBot = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 30, stiffness: 200 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  // Rotation values for the head/body
+  const rotateX = useTransform(smoothY, [0, 1000], [20, -20]);
+  const rotateY = useTransform(smoothX, [0, 1500], [-30, 30]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      className="fixed z-50 pointer-events-none"
+      style={{
+        left: useTransform(smoothX, (val) => (val as number) - 50),
+        top: useTransform(smoothY, (val) => (val as number) - 120),
+        perspective: "1000px"
+      }}
+    >
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="relative h-24 w-20"
+      >
+        {/* Robot Head */}
+        <motion.div 
+          className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white to-slate-200 border border-white/40 shadow-2xl flex flex-col items-center justify-center overflow-hidden"
+          style={{ transform: "translateZ(20px)" }}
+        >
+          {/* Facial Screen */}
+          <div className="h-2/3 w-[85%] bg-[#0B1221] rounded-2xl relative mt-2 flex items-center justify-center">
+             <div className="flex gap-4">
+                {/* Eyes */}
+                {[0, 1].map((i) => (
+                  <motion.div 
+                    key={i}
+                    className="h-2 w-2 rounded-full bg-primary"
+                    animate={{ 
+                      scaleY: [1, 1, 0.1, 1],
+                      boxShadow: ["0 0 10px #10b981", "0 0 20px #10b981", "0 0 10px #10b981"]
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity,
+                      repeatDelay: i * 0.5
+                    }}
+                  />
+                ))}
+             </div>
+             {/* Scanning Line */}
+             <motion.div 
+               className="absolute inset-x-2 h-[1px] bg-primary/40 blur-[1px]"
+               animate={{ top: ["20%", "80%", "20%"] }}
+               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+             />
+          </div>
+          {/* Ambient Glow */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none" />
+        </motion.div>
+
+        {/* Robot Body / Base */}
+        <motion.div 
+          className="absolute -bottom-10 left-1/2 -ml-8 h-12 w-16 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 shadow-xl border border-white/20"
+          style={{ transform: "translateZ(0px) rotateX(10deg)" }}
+        />
+
+        {/* Thruster Glow */}
+        <motion.div 
+          className="absolute -bottom-14 left-1/2 -ml-4 h-8 w-8 bg-primary/20 blur-xl rounded-full"
+          animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const Onboarding = () => {
   const navigate = useNavigate();
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
