@@ -9,11 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 
 const steps = [
-  { id: 1, title: "Blueprint", detail: "Strategic roadmapping & project scoping", pos: [-4, 0, 4], color: "#00E0FF" },
-  { id: 2, title: "Architecture", detail: "System design & neural infrastructure", pos: [-1, 1, 1], color: "#FF3D71" },
-  { id: 3, title: "Synthesis", detail: "Merging AI logic with human creativity", pos: [2, 0, -2], color: "#8B5CF6" },
-  { id: 4, title: "Validation", detail: "Rigorous testing & security audits", pos: [5, 1, 1], color: "#FFD700" },
-  { id: 5, title: "Deployment", detail: "Global scaling & mission launch", pos: [8, 0, 4], color: "#10B981" },
+  { id: 1, title: "AI PRECISION MATCHING", detail: "Gemini-powered talent discovery & alignment.", pos: [-4, 0, 4], color: "#00E0FF" },
+  { id: 2, title: "GLOBAL ELITE NETWORK", detail: "Vetted top 1% tech talent at your fingertips.", pos: [-1, 1, 1], color: "#FF3366" },
+  { id: 3, title: "REAL-TIME SYNCER", detail: "Seamless cross-device collaboration & tracking.", pos: [2, 0, -2], color: "#9F7AEA" },
+  { id: 4, title: "VERIFIED SECURITY", detail: "Blockchain-hardened profile & payment protection.", pos: [5, 1, 1], color: "#FBBF24" },
+  { id: 5, title: "SMART ESCROW", detail: "Guaranteed payments for every project milestone.", pos: [8, 0, 4], color: "#10B981" },
 ];
 
 const Pipe = ({ start, end, activeProgress }: { start: [number, number, number], end: [number, number, number], activeProgress: number }) => {
@@ -95,9 +95,9 @@ const NodePoint = ({ step, isActive }: { step: typeof steps[0], isActive: boolea
             distort={isActive ? 0.3 : 0}
             radius={1}
             emissive={isActive ? step.color : "#000000"}
-            emissiveIntensity={isActive ? 1.5 : 0}
+            emissiveIntensity={isActive ? 8 : 0}
             metalness={0.9}
-            roughness={0.1}
+            roughness={0.05}
           />
         </RoundedBox>
 
