@@ -127,7 +127,7 @@ const Login = () => {
                             localStorage.setItem("skillswap_token", "mock_google_token");
                             localStorage.setItem("skillswap_user", JSON.stringify(mockUser));
                             window.dispatchEvent(new Event("user_updated"));
-                            navigate("/dashboard");
+                            navigate("/select-domain");
                           }, 1000);
                         }}
                         className="w-full h-14 bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3 hover:bg-white/10 transition-all text-left"

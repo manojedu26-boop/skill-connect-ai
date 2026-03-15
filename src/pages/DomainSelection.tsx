@@ -1,0 +1,186 @@
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { 
+  Building2, 
+  Cpu, 
+  Dna, 
+  Video, 
+  BarChart3, 
+  Globe2, 
+  ArrowRight,
+  ShieldCheck
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const domains = [
+  {
+    id: "architecture",
+    title: "Systems Architecture",
+    icon: <Building2 className="h-8 w-8" />,
+    desc: "Infrastructure scaling, cloud Native, and distributed systems logic.",
+    color: "from-blue-500/20 to-teal-500/20",
+    image: "https://images.unsplash.com/photo-1511447333015-45b65e60f6d1?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "it_dev",
+    title: "Full-Stack Ops",
+    icon: <Cpu className="h-8 w-8" />,
+    desc: "Next-gen web applications, neural interfaces, and API ecosystems.",
+    color: "from-purple-500/20 to-pink-500/20",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "biotech",
+    title: "Neural & Bio-Tech",
+    icon: <Dna className="h-8 w-8" />,
+    desc: "Bio-informatics, regenerative logic, and molecular simulation.",
+    color: "from-emerald-500/20 to-teal-500/20",
+    image: "https://images.unsplash.com/photo-1532187863486-abf9d39d9992?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "marketing",
+    title: "Global Intelligence",
+    icon: <BarChart3 className="h-8 w-8" />,
+    desc: "Predictive analytics, market sentiment, and neural branding.",
+    color: "from-orange-500/20 to-red-500/20",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "creative",
+    title: "Cinematic Editing",
+    icon: <Video className="h-8 w-8" />,
+    desc: "AI-assisted production, immersive visual effects, and story logic.",
+    color: "from-indigo-500/20 to-blue-500/20",
+    image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "security",
+    title: "Cyber Security",
+    icon: <ShieldCheck className="h-8 w-8" />,
+    desc: "Zero-trust protocols, neural encryption, and packet-level defense.",
+    color: "from-red-500/20 to-orange-500/20",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+  }
+];
+
+const DomainSelection = () => {
+  const [selected, setSelected] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSelection = (id: string) => {
+    setSelected(id);
+    // Simulate saving selection
+    const userStr = localStorage.getItem("skillswap_user");
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      user.domain = id;
+      localStorage.setItem("skillswap_user", JSON.stringify(user));
+    }
+    
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 800);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center p-6 sm:p-12 overflow-hidden relative">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-500/10 blur-[120px] rounded-full" />
+      </div>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-6xl w-full relative z-10 text-center space-y-4 mb-16"
+      >
+        <span className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+          Initialization Phase II
+        </span>
+        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight">
+          Select Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-400">Mission Domain</span>
+        </h1>
+        <p className="text-slate-400 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
+          The neural network requires a sector anchor to optimize your professional trajectory. 
+          Which field defines your expertise?
+        </p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full relative z-10">
+        {domains.map((domain, i) => (
+          <motion.div
+            key={domain.id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            whileHover={{ 
+              scale: 1.02,
+              rotateX: 2,
+              rotateY: -2,
+              transition: { duration: 0.2 }
+            }}
+            onClick={() => handleSelection(domain.id)}
+            className={`group relative h-[320px] cursor-pointer rounded-[2rem] border overflow-hidden transition-all duration-500 transform-gpu perspective-1000
+              ${selected === domain.id 
+                ? 'border-primary ring-2 ring-primary/50' 
+                : 'border-white/10 hover:border-white/30 bg-white/5'}`}
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+              <img 
+                src={domain.image} 
+                className="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-700" 
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent`} />
+              <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay`} />
+            </div>
+
+            <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(40px)" }}>
+              <div className="space-y-4">
+                <div className={`h-16 w-16 rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-500 shadow-xl`}>
+                  {domain.icon}
+                </div>
+                <h3 className="text-2xl font-black text-white tracking-tight">{domain.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed font-medium group-hover:text-white/80 transition-colors">
+                  {domain.desc}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className={`text-[10px] font-black uppercase tracking-widest ${selected === domain.id ? 'text-primary' : 'text-slate-500'}`}>
+                  {selected === domain.id ? 'Mission Locked' : 'Initialization Ready'}
+                </span>
+                <div className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
+                  ${selected === domain.id ? 'bg-primary border-primary text-white' : 'border-white/10 text-white group-hover:border-white/40'}`}>
+                  <ArrowRight className={`h-5 w-5 ${selected === domain.id ? 'animate-pulse' : ''}`} />
+                </div>
+              </div>
+            </div>
+
+            {/* Glass shine effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
+          </motion.div>
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed bottom-12 z-50 px-8 py-4 bg-primary rounded-full shadow-[0_0_50px_rgba(var(--primary),0.5)] flex items-center gap-4"
+          >
+            <div className="h-2 w-2 rounded-full bg-white animate-ping" />
+            <span className="text-white font-black uppercase tracking-widest text-sm">Synchronizing Digital Identity...</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default DomainSelection;

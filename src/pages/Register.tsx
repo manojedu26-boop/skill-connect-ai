@@ -28,7 +28,7 @@ const Register = () => {
       localStorage.setItem("skillswap_user", JSON.stringify(data.user));
       toast.success("Registration successful!");
       window.dispatchEvent(new Event("user_updated")); 
-      navigate("/dashboard");
+      navigate("/select-domain");
     } catch (error: any) {
       toast.error(error.message);
     }

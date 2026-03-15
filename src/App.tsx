@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Onboarding from "./pages/Onboarding";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import DomainSelection from "./pages/DomainSelection";
 import DashboardRedirect from "./components/DashboardRedirect";
 import ClientDashboard from "./pages/ClientDashboard";
 import FreelancerDashboard from "./pages/FreelancerDashboard";
@@ -51,6 +52,7 @@ const App = () => {
                   <Route path="/" element={<Onboarding />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/select-domain" element={<DomainSelection />} />
                   
                   {/* Default Routing Strategy */}
                   <Route path="/dashboard" element={<DashboardRedirect />} />
