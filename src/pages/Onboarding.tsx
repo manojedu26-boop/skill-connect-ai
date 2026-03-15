@@ -16,28 +16,12 @@ const Onboarding = () => {
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-          <motion.div 
-            className="flex items-center gap-2 cursor-pointer group"
-            whileHover={{ scale: 1.05 }}
-            style={{ perspective: "1000px" }}
-          >
-            <motion.div 
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald"
-              animate={{ 
-                rotateY: [0, 360],
-                z: [0, 50, 0]
-              }}
-              transition={{ 
-                duration: 6, 
-                repeat: Infinity, 
-                ease: "linear" 
-              }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald">
               <Sparkles className="h-6 w-6 text-primary-foreground" />
-            </motion.div>
-            <span className="text-2xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors">SkillSwap</span>
-          </motion.div>
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-foreground">SkillSwap</span>
+          </div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <div className="relative group">
@@ -217,58 +201,10 @@ const Onboarding = () => {
       {/* Feature Grid */}
       <section className="py-24 lg:py-32 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8 relative">
-            <div className="space-y-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+            <div className="space-y-4">
               <h2 className="text-4xl font-black tracking-tight">Systemic Capabilities</h2>
               <p className="text-muted-foreground max-w-md">Our neural architecture enables a paradigm shift in how elite talent interacts with global capital.</p>
-            </div>
-            
-            {/* Roaming 3D Robot / Orb Visual */}
-            <motion.div
-              className="absolute -top-40 right-10 w-64 h-64 pointer-events-none opacity-40 mix-blend-screen overflow-hidden rounded-full border border-primary/20 bg-primary/5 blur-sm"
-              animate={{
-                y: [0, -40, 0],
-                x: [0, 20, 0],
-                rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-               <img 
-                 src="https://images.unsplash.com/photo-1675271591211-126ad94e495d?auto=format&fit=crop&q=80&w=800" 
-                 alt="3D Neural Entity" 
-                 className="w-full h-full object-cover opacity-80 animate-pulse"
-               />
-            </motion.div>
-            
-            {/* Orbital Floating Text */}
-            <div className="absolute inset-0 pointer-events-none">
-               {[ "AUTONOMOUS", "CRYPTO-SECURE", "AI-ORCHESTRATED", "NEURAL-MATCHED" ].map((text, idx) => (
-                 <motion.span
-                   key={idx}
-                   className="absolute text-[10px] font-black tracking-[0.4em] text-primary/30"
-                   animate={{
-                     rotate: [0, 360],
-                   }}
-                   transition={{
-                     duration: 20 + idx * 5,
-                     repeat: Infinity,
-                     ease: "linear"
-                   }}
-                   style={{
-                     left: "50%",
-                     top: "50%",
-                     paddingLeft: `${200 + idx * 40}px`,
-                     transformOrigin: "left center"
-                   }}
-                 >
-                   {text}
-                 </motion.span>
-               ))}
             </div>
           </div>
           
@@ -311,27 +247,25 @@ const Onboarding = () => {
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: idleX, rotateY: 0 }}
+                  initial={{ opacity: 0, x: idleX }}
                   whileInView={{ opacity: 1 }}
                   animate={{ 
                     x: hoveredFeature !== null 
-                      ? (i === hoveredFeature ? 0 : (i < hoveredFeature ? -500 : 500)) 
+                      ? (i === hoveredFeature ? 0 : (i < hoveredFeature ? -450 : 450)) 
                       : idleX,
-                    scale: isActive ? 1.1 : 0.9,
+                    scale: isActive ? 1.05 : 0.95,
                     zIndex: isActive ? 50 : 10 + i,
-                    rotateY: isActive ? 0 : (i - 1.5) * 15,
-                    rotateZ: isActive ? 0 : (i - 1.5) * 2,
-                    y: isActive ? -20 : 0
+                    y: isActive ? -15 : 0
                   }}
-                  whileHover={{ 
-                    rotateY: 0,
-                    rotateX: 5,
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 150, 
+                    damping: 25,
+                    mass: 0.8
                   }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   onMouseEnter={() => setHoveredFeature(i)}
                   onMouseLeave={() => setHoveredFeature(null)}
                   className="absolute h-[480px] w-full max-w-[340px] rounded-[3rem] border border-white/20 bg-[#0B1221] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden group transform-gpu"
-                  style={{ transformStyle: "preserve-3d" }}
                 >
                   <div className="p-12 h-full flex flex-col justify-between relative z-20" style={{ transform: "translateZ(50px)" }}>
                     <div>
