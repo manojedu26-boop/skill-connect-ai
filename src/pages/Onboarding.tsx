@@ -184,11 +184,18 @@ const Onboarding = () => {
       </main>
 
       {/* Feature Grid */}
-      <section className="py-24 lg:py-32">
+      <section className="py-24 lg:py-32 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { 
+          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl font-black tracking-tight">Systemic Capabilities</h2>
+              <p className="text-muted-foreground max-w-md">Our neural architecture enables a paradigm shift in how elite talent interacts with global capital.</p>
+            </div>
+          </div>
+          
+          <div className="relative h-[500px] w-full">
+            <div className="flex items-center justify-center h-full w-full relative">
+            { 
                 icon: <Globe />, 
                 title: "Borderless Talent", 
                 desc: "Hire from anywhere. We handle contracts, payments, and compliance.",
@@ -208,45 +215,67 @@ const Onboarding = () => {
                 desc: "Gemini AI breaks down your requirements into actionable milestones.",
                 image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
                 hoverText: "Automated Logic: Milestone precision tracking."
+              },
+              { 
+                icon: <ShieldCheck />, 
+                title: "Secure Contracts", 
+                desc: "Smart-contract based escrows ensure safe payments for every mission.",
+                image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800",
+                hoverText: "Escrow Logic: Guaranteed financial security."
               }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                onMouseEnter={() => setHoveredFeature(i)}
-                onMouseLeave={() => setHoveredFeature(null)}
-                viewport={{ once: true }}
-                className="group relative h-[320px] rounded-3xl border border-white/5 bg-card/50 hover:bg-card hover:border-primary/30 transition-all cursor-default overflow-hidden"
-              >
-                <div className="p-8 h-full flex flex-col justify-between">
-                  <div className="z-10">
-                    <div className="mb-4 h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{feature.desc}</p>
-                  </div>
-                </div>
-
-                {/* Hover Reveal Content */}
-                <motion.div 
-                  initial={{ opacity: 0, scale: 1.1 }}
+            ].map((feature, i) => {
+              const isActive = hoveredFeature === i;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: i * 80 }}
+                  whileInView={{ opacity: 1 }}
                   animate={{ 
-                    opacity: hoveredFeature === i ? 1 : 0,
-                    scale: hoveredFeature === i ? 1 : 1.1 
+                    x: hoveredFeature !== null 
+                      ? (i === hoveredFeature ? 0 : (i < hoveredFeature ? -40 : 400)) 
+                      : i * 80,
+                    scale: isActive ? 1.05 : 0.95,
+                    zIndex: isActive ? 40 : 10 + i,
+                    rotate: isActive ? 0 : (i - 1.5) * 5
                   }}
-                  className="absolute inset-0 z-0"
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  onMouseEnter={() => setHoveredFeature(i)}
+                  onMouseLeave={() => setHoveredFeature(null)}
+                  className="absolute top-0 h-[450px] w-full max-w-[320px] rounded-[2.5rem] border border-white/10 bg-[#0B1221] shadow-2xl cursor-pointer overflow-hidden group"
                 >
-                  <img src={feature.image} alt={feature.title} className="h-full w-full object-cover brightness-[0.3]" />
-                  <div className="absolute inset-x-0 bottom-0 p-8 h-full flex flex-col justify-end bg-gradient-to-t from-background via-transparent to-transparent">
-                     <p className="text-primary font-black text-[10px] uppercase tracking-widest mb-2">Advanced Intelligence</p>
-                     <p className="text-white font-bold leading-tight">{feature.hoverText}</p>
+                  <div className="p-10 h-full flex flex-col justify-between relative z-20">
+                    <div>
+                      <div className="mb-6 h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                        {feature.icon}
+                      </div>
+                      <h3 className="text-2xl font-black mb-4 text-white">{feature.title}</h3>
+                      <p className="text-slate-400 text-sm leading-relaxed font-medium">{feature.desc}</p>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span>Live Capability</span> <ArrowRight className="h-3 w-3" />
+                    </div>
                   </div>
+
+                  {/* Visual Background */}
+                  <div className="absolute inset-0 z-0">
+                    <img src={feature.image} alt={feature.title} className="h-full w-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1221] via-[#0B1221]/80 to-transparent" />
+                  </div>
+                  
+                  {/* Hover Reveal Content */}
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: isActive ? 1 : 0 }}
+                    className="absolute inset-x-0 bottom-0 p-10 z-30 bg-gradient-to-t from-[#0B1221] to-transparent"
+                  >
+                     <p className="text-primary font-black text-[10px] uppercase tracking-widest mb-1">Elite Infrastructure</p>
+                     <p className="text-white text-lg font-bold leading-tight">{feature.hoverText}</p>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            })}
+            </div>
           </div>
         </div>
       </section>
