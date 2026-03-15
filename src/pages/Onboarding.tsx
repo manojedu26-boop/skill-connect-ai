@@ -16,12 +16,28 @@ const Onboarding = () => {
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald">
+          <motion.div 
+            className="flex items-center gap-2 cursor-pointer group"
+            whileHover={{ scale: 1.05 }}
+            style={{ perspective: "1000px" }}
+          >
+            <motion.div 
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald"
+              animate={{ 
+                rotateY: [0, 360],
+                z: [0, 50, 0]
+              }}
+              transition={{ 
+                duration: 6, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              style={{ transformStyle: "preserve-3d" }}
+            >
               <Sparkles className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <span className="text-2xl font-black tracking-tighter text-foreground">SkillSwap</span>
-          </div>
+            </motion.div>
+            <span className="text-2xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors">SkillSwap</span>
+          </motion.div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
             <div className="relative group">
@@ -98,7 +114,22 @@ const Onboarding = () => {
                 transition={{ delay: 0.1 }}
                 className="text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
               >
-                Hire the top <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic">1% Talent</span> for your next mission.
+                Hire the top {" "}
+                <motion.span 
+                  className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"],
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  1% Talent
+                </motion.span> 
+                {" "} for your next mission.
               </motion.h1>
 
               <motion.p 
@@ -186,10 +217,58 @@ const Onboarding = () => {
       {/* Feature Grid */}
       <section className="py-24 lg:py-32 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
-            <div className="space-y-4">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8 relative">
+            <div className="space-y-4 relative z-10">
               <h2 className="text-4xl font-black tracking-tight">Systemic Capabilities</h2>
               <p className="text-muted-foreground max-w-md">Our neural architecture enables a paradigm shift in how elite talent interacts with global capital.</p>
+            </div>
+            
+            {/* Roaming 3D Robot / Orb Visual */}
+            <motion.div
+              className="absolute -top-40 right-10 w-64 h-64 pointer-events-none opacity-40 mix-blend-screen overflow-hidden rounded-full border border-primary/20 bg-primary/5 blur-sm"
+              animate={{
+                y: [0, -40, 0],
+                x: [0, 20, 0],
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+               <img 
+                 src="https://images.unsplash.com/photo-1675271591211-126ad94e495d?auto=format&fit=crop&q=80&w=800" 
+                 alt="3D Neural Entity" 
+                 className="w-full h-full object-cover opacity-80 animate-pulse"
+               />
+            </motion.div>
+            
+            {/* Orbital Floating Text */}
+            <div className="absolute inset-0 pointer-events-none">
+               {[ "AUTONOMOUS", "CRYPTO-SECURE", "AI-ORCHESTRATED", "NEURAL-MATCHED" ].map((text, idx) => (
+                 <motion.span
+                   key={idx}
+                   className="absolute text-[10px] font-black tracking-[0.4em] text-primary/30"
+                   animate={{
+                     rotate: [0, 360],
+                   }}
+                   transition={{
+                     duration: 20 + idx * 5,
+                     repeat: Infinity,
+                     ease: "linear"
+                   }}
+                   style={{
+                     left: "50%",
+                     top: "50%",
+                     paddingLeft: `${200 + idx * 40}px`,
+                     transformOrigin: "left center"
+                   }}
+                 >
+                   {text}
+                 </motion.span>
+               ))}
             </div>
           </div>
           
