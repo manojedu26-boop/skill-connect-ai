@@ -42,7 +42,7 @@ const domains = [
     icon: <BarChart3 className="h-8 w-8" />,
     desc: "Predictive analytics, market sentiment, and neural branding.",
     color: "from-orange-600/30 to-rose-500/30",
-    image: "https://images.unsplash.com/photo-1551288049-bbbda5366391?auto=format&fit=crop&q=80&w=1200"
+    image: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: "creative",
