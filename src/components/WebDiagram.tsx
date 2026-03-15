@@ -9,11 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 
 const steps = [
-  { id: 1, title: "AI PRECISION MATCHING", detail: "Gemini-powered talent discovery & alignment.", pos: [-4, 0, 4], color: "#00E0FF" },
-  { id: 2, title: "GLOBAL ELITE NETWORK", detail: "Vetted top 1% tech talent at your fingertips.", pos: [-1, 1, 1], color: "#FF3366" },
+  { id: 1, title: "AI PRECISION MATCHING", detail: "Gemini-powered talent discovery & alignment.", pos: [-4, 0, 2], color: "#00E0FF" },
+  { id: 2, title: "GLOBAL ELITE NETWORK", detail: "Vetted top 1% tech talent at your fingertips.", pos: [-1, 1, -1], color: "#FF3366" },
   { id: 3, title: "REAL-TIME SYNCER", detail: "Seamless cross-device collaboration & tracking.", pos: [2, 0, -2], color: "#9F7AEA" },
-  { id: 4, title: "VERIFIED SECURITY", detail: "Blockchain-hardened profile & payment protection.", pos: [5, 1, 1], color: "#FBBF24" },
-  { id: 5, title: "SMART ESCROW", detail: "Guaranteed payments for every project milestone.", pos: [8, 0, 4], color: "#10B981" },
+  { id: 4, title: "VERIFIED SECURITY", detail: "Blockchain-hardened profile & payment protection.", pos: [5, 1, -1], color: "#FBBF24" },
+  { id: 5, title: "SMART ESCROW", detail: "Guaranteed payments for every project milestone.", pos: [8, 0, 2], color: "#10B981" },
 ];
 
 const Pipe = ({ start, end, activeProgress }: { start: [number, number, number], end: [number, number, number], activeProgress: number }) => {
@@ -94,10 +94,13 @@ const NodePoint = ({ step, isActive }: { step: typeof steps[0], isActive: boolea
             speed={2}
             distort={isActive ? 0.3 : 0}
             radius={1}
-            emissive={isActive ? step.color : "#000000"}
-            emissiveIntensity={isActive ? 8 : 0}
+            emissive={step.color}
+            emissiveIntensity={isActive ? 10 : 0.8}
             metalness={0.9}
-            roughness={0.05}
+            roughness={0.02}
+            reflectivity={1}
+            iridescence={1}
+            clearcoat={1}
           />
         </RoundedBox>
 
@@ -177,9 +180,14 @@ export const WebDiagram = () => {
       </div>
 
       <div className="relative z-10 w-full h-full">
-        <Canvas dpr={[1, 2]} shadows>
-          <PerspectiveCamera makeDefault position={[0, 8, 12]} fov={35} />
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+        <Canvas dpr={[1, 2]} shadows gl={{ alpha: true, antialias: true }}>
+          <PerspectiveCamera makeDefault position={[0, 6, 15]} fov={30} />
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false} 
+            minPolarAngle={Math.PI / 4} 
+            maxPolarAngle={Math.PI / 2.5}
+          />
           
           <ambientLight intensity={0.1} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
