@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
   const [showLogo, setShowLogo] = useState(false);
   const [showText, setShowText] = useState(false);
-  const appName = "SKILLSWAP";
+  const appName = "SkillSwap";
 
   useEffect(() => {
     // Stage 1: Blank for 0.7s
@@ -56,12 +56,12 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
                   animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
                   transition={{
                     duration: 0.5,
-                    delay: index * 0.12,
+                    delay: index * 0.1,
                     ease: "easeOut"
                   }}
-                  className="text-4xl font-black tracking-[0.2em] text-white"
+                  className="text-5xl font-black tracking-tighter text-white"
                 >
-                  {char}
+                  {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
             </div>
