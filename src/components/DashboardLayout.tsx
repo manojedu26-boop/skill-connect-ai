@@ -331,7 +331,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                  </div>
               </div>
             </div>
-            <div className="neon-progress-rail w-full shrink-0" />
           </header>
           
           <main className="flex-1 overflow-auto p-8 lg:p-10 space-y-10">

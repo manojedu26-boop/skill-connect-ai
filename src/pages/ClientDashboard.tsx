@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, FolderOpen, MessageSquare, TrendingUp, ArrowRight, Zap, Pulse, LineChart } from "lucide-react";
+import { Users, FolderOpen, MessageSquare, TrendingUp, ArrowRight, Zap, LineChart } from "lucide-react";
 import FreelancerCard from "@/components/FreelancerCard";
 import ProjectCard from "@/components/ProjectCard";
 import { mockFreelancers, mockProjects } from "@/data/mockData";
@@ -102,40 +102,97 @@ const ClientDashboard = () => {
            </div>
         </div>
 
-        {/* Market Rate Pulse Section */}
-        <div className="bento-card bg-white p-10 border border-slate-100 relative overflow-hidden group">
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-px bg-gradient-to-r from-transparent via-slate-100 to-transparent rotate-45" />
-           <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-              <div className="space-y-4">
-                 <div className="h-12 w-12 rounded-2xl bg-orange/5 flex items-center justify-center">
-                    <TrendingUp className="h-6 w-6 text-orange" />
-                 </div>
-                 <h3 className="text-2xl font-black text-navy leading-tight">Architectural Capital Intensity</h3>
-                 <p className="text-slate-500 text-sm font-medium leading-relaxed">Market rates for <span className="text-navy font-bold">React Architecture</span> have inflated <span className="text-orange font-bold">12%</span> this quarter. Talent retention is critical.</p>
+        {/* AI ROI & Team Topology Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+           {/* AI ROI Forecaster */}
+           <div className="lg:col-span-7 bento-card bg-white p-10 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                 <LineChart className="h-24 w-24 text-teal" />
               </div>
-
-              <div className="md:col-span-2 grid grid-cols-2 gap-6">
-                 <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 space-y-4">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
-                       Average Rate <span className="text-teal font-black">↑ 4%</span>
+              <div className="relative z-10 space-y-6">
+                 <div className="space-y-1">
+                    <p className="text-[10px] font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                       <TrendingUp className="h-3 w-3" /> Predictive Intelligence
                     </p>
-                    <div className="flex items-end gap-1 h-12">
-                       {[30, 45, 35, 60, 50, 80].map((h, i) => (
-                         <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} className="flex-1 bg-teal/20 rounded-t-sm" />
-                       ))}
-                    </div>
-                    <p className="text-2xl font-black text-navy">$145<span className="text-sm font-bold text-slate-400">/hr</span></p>
+                    <h3 className="text-3xl font-black text-navy leading-tight">AI ROI Forecaster</h3>
+                    <p className="text-slate-500 text-sm font-medium">Predicting project output value based on <span className="text-navy font-bold">12,000+ benchmarked missions</span>.</p>
                  </div>
-                 
-                 <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100 space-y-4">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-between">
-                       Sourcing Efficiency <span className="text-orange font-black">OPTIMAL</span>
-                    </p>
-                    <div className="flex items-center justify-center h-12">
-                       <Zap className="h-8 w-8 text-orange animate-pulse" />
+
+                 <div className="grid grid-cols-3 gap-4 pt-4">
+                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Project Velocity</p>
+                       <p className="text-xl font-black text-teal">+24%</p>
                     </div>
-                    <p className="text-2xl font-black text-navy">2.4 Days</p>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Time-to-Hire Avg</p>
+                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Cost Savings</p>
+                       <p className="text-xl font-black text-orange">$14.2k</p>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Success Prob.</p>
+                       <p className="text-xl font-black text-navy">98.4%</p>
+                    </div>
+                 </div>
+
+                 <div className="h-40 w-full bg-slate-50 rounded-[2rem] border border-slate-100 p-6 relative flex items-end gap-2 overflow-hidden">
+                    <div className="absolute top-4 left-6 flex items-center gap-2">
+                       <span className="h-2 w-2 rounded-full bg-teal animate-pulse" />
+                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Real-time Benchmarking</span>
+                    </div>
+                    {[40, 55, 30, 70, 45, 80, 60, 95, 85].map((h, i) => (
+                       <div key={i} className="flex-1 flex flex-col items-center gap-2">
+                          <motion.div 
+                             initial={{ height: 0 }} 
+                             animate={{ height: `${h}%` }} 
+                             transition={{ delay: i * 0.1, duration: 1.5, ease: "circOut" }}
+                             className={`w-full rounded-t-lg ${i === 7 ? 'bg-orange' : 'bg-teal/20'}`} 
+                          />
+                       </div>
+                    ))}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent pointer-events-none" />
+                 </div>
+              </div>
+           </div>
+
+           {/* Team Neural Topology */}
+           <div className="lg:col-span-5 bento-card bg-[#0B1221] text-white p-10 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                 <div className="space-y-4">
+                    <p className="text-[10px] font-black text-teal uppercase tracking-[0.3em] flex items-center gap-2">
+                       <Users className="h-3 w-3" /> Team Topology
+                    </p>
+                    <h3 className="text-2xl font-black leading-tight">Neural Skill <br/>Coverage Map</h3>
+                 </div>
+
+                 <div className="relative h-48 flex items-center justify-center">
+                    <div className="absolute h-32 w-32 rounded-full border border-teal/20 animate-[spin_10s_linear_infinite]" />
+                    <div className="absolute h-40 w-40 rounded-full border border-orange/20 animate-[spin_15s_linear_infinite_reverse]" />
+                    
+                    {/* Node points */}
+                    <div className="relative">
+                       <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 3 }} className="h-4 w-4 bg-teal rounded-full teal-glow" />
+                       <p className="absolute -top-6 left-1/2 -translate-x-1/2 text-[8px] font-black uppercase tracking-widest text-teal">DevOps</p>
+                    </div>
+                    
+                    <div className="absolute top-10 right-10">
+                       <div className="h-2 w-2 bg-orange rounded-full orange-glow" />
+                       <p className="absolute -top-5 left-1/2 text-[8px] font-black uppercase tracking-widest text-orange">UI/UX</p>
+                    </div>
+
+                    <div className="absolute bottom-10 left-10">
+                       <div className="h-2 w-2 bg-white rounded-full bg-glow" />
+                       <p className="absolute -bottom-5 left-1/2 text-[8px] font-black uppercase tracking-widest text-white">Scale</p>
+                    </div>
+                 </div>
+
+                 <div className="space-y-2">
+                    <div className="flex items-center justify-between text-[10px] font-black uppercase text-slate-400">
+                       <span>Total Synergy</span>
+                       <span className="text-teal">94.2%</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                       <motion.div initial={{ width: 0 }} animate={{ width: "94%" }} className="h-full bg-teal" />
+                    </div>
                  </div>
               </div>
            </div>

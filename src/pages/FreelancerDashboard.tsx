@@ -116,52 +116,106 @@ const FreelancerDashboard = () => {
            </div>
         </div>
 
-        {/* Global Opportunities Heatmap */}
-        <div className="bento-card bg-[#0B1221] text-white p-10 relative overflow-hidden group">
-           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="space-y-4 max-w-md">
-                 <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-teal/20 flex items-center justify-center">
-                       <Globe className="h-5 w-5 text-teal" />
+        {/* Financial Trajectory & Skill Neural Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+           {/* Financial Trajectory Optimizer */}
+           <div className="lg:col-span-8 bento-card bg-[#0B1221] text-white p-10 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal/5 to-transparent opacity-50" />
+              <div className="relative z-10 flex flex-col md:flex-row gap-10">
+                 <div className="space-y-6 max-w-sm">
+                    <div className="space-y-2">
+                       <p className="text-[10px] font-black text-teal uppercase tracking-[0.3em] flex items-center gap-2">
+                          <TrendingUp className="h-4 w-4" /> Capital Optimization
+                       </p>
+                       <h2 className="text-3xl font-black leading-tight">Financial Trajectory <br/>Optimizer</h2>
+                       <p className="text-slate-400 text-sm font-medium leading-relaxed">AI analysis of current contract density suggests a <span className="text-white">42% revenue increase</span> is achievable by pivoting to <span className="text-teal">Rust/Wasm</span> architecture nodes.</p>
                     </div>
-                    <p className="text-xs font-black uppercase tracking-[0.3em] text-teal">Network Pulse</p>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                       <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Projected Q4</p>
+                          <p className="text-xl font-black text-teal">$24,800</p>
+                       </div>
+                       <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                          <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Max Ceiling</p>
+                          <p className="text-xl font-black text-orange">$42k</p>
+                       </div>
+                    </div>
+
+                    <Button variant="hero" className="w-full h-12 rounded-2xl bg-teal text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal/20 hover:scale-105 transition-all">
+                       EXECUTE PIVOT STRATEGY
+                    </Button>
                  </div>
-                 <h2 className="text-3xl font-black leading-tight">Elite Demand Heatmap</h2>
-                 <p className="text-slate-400 text-sm font-medium leading-relaxed">High-density project clusters detected in <span className="text-white">Silicon Valley</span>, <span className="text-white">London</span>, and <span className="text-white">Dubai</span>. Your stack is trending 3.4x in these territories.</p>
-                 <div className="flex gap-4 pt-4">
-                    <div className="flex flex-col">
-                       <span className="text-2xl font-black text-teal">85%</span>
-                       <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Market Fit</span>
+
+                 <div className="flex-1 space-y-8">
+                    <div className="space-y-4">
+                       {[
+                         { label: "Current Logic", val: 100, color: "bg-white/20" },
+                         { label: "AI Projected", val: 142, color: "bg-teal", highlight: true },
+                         { label: "Market Optimal", val: 180, color: "bg-orange" }
+                       ].map((b, i) => (
+                         <div key={i} className="space-y-2">
+                            <div className="flex items-center justify-between text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                               <span>{b.label}</span>
+                               <span className={b.highlight ? 'text-teal' : ''}>{i === 0 ? '$4.2k' : i === 1 ? '$6.0k' : '$7.5k'} Avg/Mo</span>
+                            </div>
+                            <div className="h-4 w-full bg-white/5 rounded-full overflow-hidden p-1 border border-white/5">
+                               <motion.div 
+                                  initial={{ width: 0 }} 
+                                  animate={{ width: `${(b.val / 180) * 100}%` }} 
+                                  transition={{ delay: 1 + (i * 0.2), duration: 1.5, ease: "circOut" }}
+                                  className={`h-full rounded-full ${b.color} ${b.highlight ? 'teal-glow' : ''}`} 
+                               />
+                            </div>
+                         </div>
+                       ))}
                     </div>
-                    <div className="w-px h-10 bg-white/10" />
-                    <div className="flex flex-col">
-                       <span className="text-2xl font-black text-orange">124</span>
-                       <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Live Nodes</span>
+                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4">
+                       <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
+                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Global demand for your current stack is rising by 12% MoM</p>
                     </div>
                  </div>
               </div>
-              
-              <div className="relative h-64 w-full md:w-[400px] bg-white/5 rounded-[2.5rem] border border-white/10 overflow-hidden flex items-center justify-center">
-                 <div className="absolute inset-0 flex items-center justify-center">
-                    {[...Array(6)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.1, 0.3] }}
-                        transition={{ repeat: Infinity, duration: 3, delay: i * 0.5 }}
-                        className="absolute border border-teal/20 rounded-full"
-                        style={{ width: `${(i + 1) * 60}px`, height: `${(i + 1) * 60}px` }}
-                      />
+           </div>
+
+           {/* Skill Neural Grid */}
+           <div className="lg:col-span-4 bento-card bg-white p-10 flex flex-col justify-between group overflow-hidden relative border border-slate-100">
+              <div className="absolute -right-20 -top-20 w-48 h-48 bg-teal/5 rounded-full blur-3xl group-hover:bg-teal/10 transition-all" />
+              <div className="space-y-6 relative z-10">
+                 <p className="text-[10px] font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                    <Target className="h-4 w-4" /> Market Fit Neural Grid
+                 </p>
+                 
+                 <div className="grid grid-cols-3 gap-2">
+                    {[...Array(9)].map((_, i) => (
+                      <motion.div 
+                         key={i} 
+                         initial={{ opacity: 0.1 }}
+                         animate={{ opacity: [0.1, 0.4, 0.1] }}
+                         transition={{ repeat: Infinity, duration: 2, delay: i * 0.2 }}
+                         className={`aspect-square rounded-lg flex items-center justify-center text-[10px] font-black border border-slate-100 ${i === 4 ? 'bg-teal/10 border-teal/30 scale-110' : 'bg-slate-50'}`}
+                      >
+                         {['RT', 'SC', 'ND', 'NX', 'UI', 'DB', 'OP', 'AI', 'SEC'][i]}
+                      </motion.div>
                     ))}
-                    <div className="relative h-3 w-3 bg-teal rounded-full teal-glow">
-                       <motion.div animate={{ scale: [1, 2, 1], opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="absolute -inset-2 bg-teal/50 rounded-full" />
+                 </div>
+                 
+                 <div className="space-y-4">
+                    <p className="text-[11px] text-slate-600 font-bold leading-tight">Top-funded projects in <span className="text-navy">SF/NYC</span> are currently scanning for <span className="text-teal">Next.js 15 + AI-SDK</span> nodes.</p>
+                    <div className="space-y-2">
+                       <div className="flex items-center justify-between text-[8px] font-black text-slate-400 uppercase">
+                          <span>Real-time Visibility</span>
+                          <span className="text-navy">High</span>
+                       </div>
+                       <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                          <motion.div initial={{ width: 0 }} animate={{ width: "88%" }} className="h-full bg-navy" />
+                       </div>
                     </div>
                  </div>
-                 <div className="absolute bottom-6 left-6 flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Synchronizing Real-time Data</span>
-                 </div>
               </div>
+              <Button variant="outline" className="mt-8 w-full h-11 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:border-teal/50 hover:bg-slate-50 transition-all">
+                 VERIFY MARKET NODES
+              </Button>
            </div>
         </div>
 

@@ -35,119 +35,108 @@ const Onboarding = () => {
         </div>
       </nav>
 
-      {/* Centered Hero Section */}
-      <main className="flex-1 relative flex items-center justify-center p-6 overflow-hidden">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px] animate-pulse delay-1000" />
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 w-full max-w-2xl"
-        >
-          {/* Main Floating Glass Card */}
-          <div className="glass-dark border border-white/10 rounded-[3rem] p-10 md:p-16 shadow-2xl backdrop-blur-3xl text-center space-y-10">
-            <div className="space-y-4">
+      {/* Hero Section */}
+      <main className="flex-1 pt-32 lg:pt-48">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-black text-primary uppercase tracking-widest"
+                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
               >
                 <Sparkles className="h-4 w-4" />
-                <span>Next-Gen Marketplace</span>
+                <span>AI-Powered Marketplace v2.0 is live</span>
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-4xl md:text-6xl font-black tracking-tighter leading-tight"
+                transition={{ delay: 0.1 }}
+                className="text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
               >
-                Elite Talent. <br />
-                <span className="text-teal">Perfectly Matched.</span>
+                Hire the top <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic">1% Talent</span> for your next mission.
               </motion.h1>
 
               <motion.p 
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-md mx-auto"
+                transition={{ delay: 0.2 }}
+                className="text-xl text-muted-foreground leading-relaxed max-w-xl"
               >
-                The world's first AI-powered skill exchange. Hire the top 1% or swap skills to accelerate your mission.
+                Connect with vetted software engineers, designers, and project managers. SkillSwap uses Gemini AI to match you with perfection.
               </motion.p>
+
+              {/* Glowing Search Bar */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="relative group max-w-2xl"
+              >
+                <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-primary/50 to-accent/50 opacity-20 blur-xl group-hover:opacity-40 transition-opacity" />
+                <div className="relative flex items-center bg-card rounded-[2rem] border border-white/10 p-2 shadow-2xl">
+                  <Search className="ml-5 h-6 w-6 text-muted-foreground" />
+                  <Input 
+                    placeholder="Try 'Senior Frontend Engineer'..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="border-none bg-transparent text-lg focus-visible:ring-0 placeholder:text-muted-foreground/50 h-14"
+                  />
+                  <Button variant="hero" className="rounded-full h-12 py-0 px-8 font-bold gap-2">
+                    Search <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </motion.div>
+
+              {/* Social Proof */}
+              <div className="flex items-center gap-8 pt-4">
+                 <div className="flex -space-x-3">
+                    {[1,2,3,4].map(i => (
+                      <div key={i} className="h-10 w-10 rounded-full border-4 border-background bg-muted overflow-hidden">
+                        <img src={`https://i.pravatar.cc/100?u=${i}`} alt="Avatar" />
+                      </div>
+                    ))}
+                 </div>
+                 <div className="text-sm font-medium">
+                    <p className="text-foreground">5,000+ Teams trust SkillSwap</p>
+                    <div className="flex items-center gap-1 text-primary">
+                       {"★★★★★"}<span className="text-muted-foreground ml-1">4.9/5 Rating</span>
+                    </div>
+                 </div>
+              </div>
             </div>
 
-            {/* Glowing Search Bar */}
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="relative group w-full"
+            {/* Right Hero Image Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ delay: 0.4, type: "spring" }}
+              className="relative"
             >
-              <div className="absolute -inset-1 rounded-[2rem] bg-teal-gradient opacity-10 blur-xl group-hover:opacity-20 transition-opacity" />
-              <div className="relative flex items-center bg-white/5 rounded-[2rem] border border-white/10 p-2 shadow-2xl">
-                <Search className="ml-5 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Senior React Engineer..." 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-none bg-transparent text-sm md:text-base focus-visible:ring-0 placeholder:text-muted-foreground/50 h-10 md:h-12"
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-primary/20 via-accent/20 to-transparent blur-3xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-card shadow-2xl neon-glow-blue">
+                <img 
+                  src={heroImage} 
+                  alt="Elite Tech Team" 
+                  className="w-full h-auto object-cover opacity-90 hover:scale-105 transition-transform duration-700" 
                 />
-                <Button variant="hero" className="rounded-full h-10 py-0 px-6 font-bold gap-2 text-xs">
-                  Search <ArrowRight className="h-4 w-4" />
-                </Button>
+                <div className="absolute bottom-6 left-6 right-6 glass-dark p-6 rounded-2xl">
+                   <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
+                         <ShieldCheck className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                         <p className="text-sm font-bold">Vetted & Verified Professionals</p>
+                         <p className="text-xs text-muted-foreground">Every talent goes through 3 rounds of technical screening.</p>
+                      </div>
+                   </div>
+                </div>
               </div>
             </motion.div>
-
-            {/* Direct Action Card (Auth Buttons) */}
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-            >
-              <Button 
-                onClick={() => navigate("/register")}
-                className="w-full sm:w-auto rounded-2xl px-10 h-14 bg-teal-gradient text-white font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-lg shadow-teal/20"
-              >
-                Get Started
-              </Button>
-              <Button 
-                variant="ghost"
-                onClick={() => navigate("/login")}
-                className="w-full sm:w-auto rounded-2xl px-10 h-14 border border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-xs transition-all"
-              >
-                Log In
-              </Button>
-            </motion.div>
-
-            {/* Platform Stats */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="pt-6 border-t border-white/5 flex items-center justify-center gap-8"
-            >
-               <div className="text-center">
-                  <p className="text-xl font-black text-white">$140M+</p>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Earned</p>
-               </div>
-               <div className="w-px h-8 bg-white/5" />
-               <div className="text-center">
-                  <p className="text-xl font-black text-white">12k+</p>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Vetted</p>
-               </div>
-               <div className="w-px h-8 bg-white/5" />
-               <div className="text-center">
-                  <p className="text-xl font-black text-white">4.9/5</p>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Rating</p>
-               </div>
-            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </main>
 
       {/* Feature Grid */}
