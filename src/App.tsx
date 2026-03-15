@@ -62,6 +62,8 @@ const App = () => {
                     <Route path="/freelancer-dashboard" element={<FreelancerDashboard />} />
                     <Route path="/my-proposals" element={<MyProposals />} />
                     <Route path="/my-portfolio" element={<Portfolio />} />
+                    <Route path="/earnings" element={<Earnings />} />
+                    <Route path="/market-status" element={<MarketStatus />} />
                   </Route>
 
                   {/* Client Restricted Routes */}
