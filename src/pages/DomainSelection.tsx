@@ -67,18 +67,50 @@ const DomainSelection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const handleSelection = (id: string) => {
+  const handleSelection = async (id: string) => {
     setSelected(id);
-    const userStr = localStorage.getItem("skillswap_user");
-    if (userStr) {
-      const user = JSON.parse(userStr);
-      user.domain = id;
-      localStorage.setItem("skillswap_user", JSON.stringify(user));
-    }
     
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 1200);
+    try {
+      const token = localStorage.getItem("skillswap_token");
+      if (!token) throw new Error("No session found");
+
+      const response = await fetch("http://localhost:5000/api/auth/profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ domain: id })
+      });
+
+      if (!response.ok) throw new Error("Failed to update profile");
+
+      // Update local storage user for UI consistency
+      const userStr = localStorage.getItem("skillswap_user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        user.domain = id;
+        localStorage.setItem("skillswap_user", JSON.stringify(user));
+        window.dispatchEvent(new Event("user_updated"));
+      }
+      
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1200);
+    } catch (error) {
+      console.error("Error saving domain:", error);
+      // Fallback: update local storage and navigate anyway to not block user
+      const userStr = localStorage.getItem("skillswap_user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        user.domain = id;
+        localStorage.setItem("skillswap_user", JSON.stringify(user));
+        window.dispatchEvent(new Event("user_updated"));
+      }
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1200);
+    }
   };
 
   return (
