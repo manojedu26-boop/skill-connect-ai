@@ -195,7 +195,7 @@ const Onboarding = () => {
           
           <div className="relative h-[500px] w-full">
             <div className="flex items-center justify-center h-full w-full relative">
-            { 
+            {[ 
                 icon: <Globe />, 
                 title: "Borderless Talent", 
                 desc: "Hire from anywhere. We handle contracts, payments, and compliance.",
