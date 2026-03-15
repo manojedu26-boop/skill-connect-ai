@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 217 33% 92%; /* Darker grey-navy for better contrast */
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 222 47% 11%; /* Navy */
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 175 40% 45%; /* Teal */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 214 20% 92%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 25 100% 60%; /* Orange */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 222 47% 11%;
+
+    --radius: 1.5rem;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 175 40% 45%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 40% 15%;
+    --sidebar-ring: 222 47% 11%;
+
+    /* Premium UI Tokens - Light Mode optimized */
+    --navy: 222 47% 11%;
+    --teal: 175 40% 45%;
+    --orange: 25 100% 60%;
+    --soft-grey: 214 15% 95%;
+    
+    --shadow-soft: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+    --shadow-premium: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+    
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .dark {
+    --background: 220 20% 4%;
+    --foreground: 210 20% 98%;
+    
+    --card: 220 20% 6%;
+    --card-foreground: 210 20% 98%;
+    
+    --popover: 220 20% 6%;
+    --popover-foreground: 210 20% 98%;
+    
+    --primary: 155 60% 50%;
+    --primary-foreground: 220 20% 4%;
+    
+    --secondary: 220 20% 10%;
+    --secondary-foreground: 210 20% 90%;
+    
+    --muted: 220 15% 10%;
+    --muted-foreground: 215 15% 65%;
+    
+    --accent: 210 100% 55%;
+    --accent-foreground: 210 20% 98%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+    
+    --border: 220 15% 12%;
+    --input: 220 15% 12%;
+    --ring: 210 100% 55%;
+    
+    --sidebar-background: 220 20% 5%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 155 60% 50%;
+    --sidebar-primary-foreground: 220 20% 5%;
+    --sidebar-accent: 220 15% 10%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 220 15% 12%;
+    --sidebar-ring: 210 100% 55%;
+
+    /* Premium Specific Tokens for Dark Mode */
+    --navy: 210 100% 95%; /* Make navy text light in dark mode */
+    --teal: 155 60% 50%;
+    --orange: 25 100% 60%;
+    --soft-grey: 220 20% 10%;
+
+    --neon-blue: 210 100% 55%;
+    --neon-emerald: 155 60% 50%;
+    --glass-bg: rgba(15, 15, 20, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .glass-frosted {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-dark {
+    background: rgba(15, 15, 30, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .bento-card {
+    @apply rounded-[2.5rem] bg-card p-6 border border-slate-200 transition-all duration-300;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  }
+  
+  .bento-card:hover {
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-4px);
+  }
+
+  .navy-gradient {
+    background: linear-gradient(135deg, hsl(222, 47%, 11%), hsl(222, 40%, 15%));
+  }
+  
+  .teal-gradient {
+    background: linear-gradient(135deg, hsl(175, 40%, 45%), hsl(175, 50%, 50%));
+  }
+  
+  .orange-glow {
+    filter: drop-shadow(0 0 8px hsla(25, 100%, 60%, 0.4));
+  }
+  
+  .interlocking-nav {
+    @apply rounded-r-[3rem];
+    box-shadow: var(--shadow-premium);
+  }
+  
+  .network-pattern {
+    position: relative;
+  }
+  
+  .network-pattern::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
