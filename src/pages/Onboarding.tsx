@@ -193,7 +193,7 @@ const Onboarding = () => {
             </div>
           </div>
           
-          <div className="relative h-[500px] w-full">
+          <div className="relative h-[600px] w-full perspective-3000">
             <div className="flex items-center justify-center h-full w-full relative">
             {[
               { 
@@ -226,52 +226,69 @@ const Onboarding = () => {
               }
             ].map((feature, i) => {
               const isActive = hoveredFeature === i;
+              // Calculate wide spread: centering around 0
+              const idleX = (i - 1.5) * 280; 
+              
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: i * 80 }}
+                  initial={{ opacity: 0, x: idleX, rotateY: 0 }}
                   whileInView={{ opacity: 1 }}
                   animate={{ 
                     x: hoveredFeature !== null 
-                      ? (i === hoveredFeature ? 0 : (i < hoveredFeature ? -40 : 400)) 
-                      : i * 80,
-                    scale: isActive ? 1.05 : 0.95,
-                    zIndex: isActive ? 40 : 10 + i,
-                    rotate: isActive ? 0 : (i - 1.5) * 5
+                      ? (i === hoveredFeature ? 0 : (i < hoveredFeature ? -500 : 500)) 
+                      : idleX,
+                    scale: isActive ? 1.1 : 0.9,
+                    zIndex: isActive ? 50 : 10 + i,
+                    rotateY: isActive ? 0 : (i - 1.5) * 15,
+                    rotateZ: isActive ? 0 : (i - 1.5) * 2,
+                    y: isActive ? -20 : 0
                   }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  whileHover={{ 
+                    rotateY: 0,
+                    rotateX: 5,
+                  }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   onMouseEnter={() => setHoveredFeature(i)}
                   onMouseLeave={() => setHoveredFeature(null)}
-                  className="absolute top-0 h-[450px] w-full max-w-[320px] rounded-[2.5rem] border border-white/10 bg-[#0B1221] shadow-2xl cursor-pointer overflow-hidden group"
+                  className="absolute h-[480px] w-full max-w-[340px] rounded-[3rem] border border-white/20 bg-[#0B1221] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden group transform-gpu"
+                  style={{ transformStyle: "preserve-3d" }}
                 >
-                  <div className="p-10 h-full flex flex-col justify-between relative z-20">
+                  <div className="p-12 h-full flex flex-col justify-between relative z-20" style={{ transform: "translateZ(50px)" }}>
                     <div>
-                      <div className="mb-6 h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                      <div className="mb-8 h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-lg">
                         {feature.icon}
                       </div>
-                      <h3 className="text-2xl font-black mb-4 text-white">{feature.title}</h3>
-                      <p className="text-slate-400 text-sm leading-relaxed font-medium">{feature.desc}</p>
+                      <h3 className="text-3xl font-black mb-4 text-white tracking-tight">{feature.title}</h3>
+                      <p className="text-slate-300 text-base leading-relaxed font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                        {feature.desc}
+                      </p>
                     </div>
                     
-                    <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span>Live Capability</span> <ArrowRight className="h-3 w-3" />
+                    <div className="flex items-center gap-3 text-primary font-black text-xs uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 duration-500">
+                      <span>Live Capability</span> <ArrowRight className="h-4 w-4" />
                     </div>
                   </div>
 
-                  {/* Visual Background */}
+                  {/* Visual Background - Increased clarity */}
                   <div className="absolute inset-0 z-0">
-                    <img src={feature.image} alt={feature.title} className="h-full w-full object-cover opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1221] via-[#0B1221]/80 to-transparent" />
+                    <img 
+                      src={feature.image} 
+                      alt={feature.title} 
+                      className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100 brightness-75 group-hover:brightness-100" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1221] via-[#0B1221]/40 to-transparent group-hover:via-[#0B1221]/20 transition-all duration-500" />
                   </div>
                   
                   {/* Hover Reveal Content */}
                   <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isActive ? 1 : 0 }}
-                    className="absolute inset-x-0 bottom-0 p-10 z-30 bg-gradient-to-t from-[#0B1221] to-transparent"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
+                    className="absolute inset-x-0 bottom-0 p-12 z-30 bg-gradient-to-t from-[#0B1221] to-transparent"
+                    style={{ transform: "translateZ(30px)" }}
                   >
-                     <p className="text-primary font-black text-[10px] uppercase tracking-widest mb-1">Elite Infrastructure</p>
-                     <p className="text-white text-lg font-bold leading-tight">{feature.hoverText}</p>
+                     <p className="text-primary font-black text-[10px] uppercase tracking-[0.3em] mb-2">Neural Hub v2.0</p>
+                     <p className="text-white text-xl font-bold leading-tight">{feature.hoverText}</p>
                   </motion.div>
                 </motion.div>
               );
