@@ -82,20 +82,20 @@ const LaserNode = ({ step, isActive }: { step: typeof steps[0], isActive: boolea
           {/* High-Fidelity Glass/Laser Material */}
           <MeshTransmissionMaterial
             backside
-            samples={8}
-            thickness={3}
-            chromaticAberration={0.1}
-            anisotropy={0.2}
-            distortion={0.2}
-            distortionScale={0.2}
-            temporalDistortion={0.1}
+            samples={16}
+            thickness={5}
+            chromaticAberration={0.2}
+            anisotropy={0.5}
+            distortion={0.3}
+            distortionScale={0.3}
+            temporalDistortion={0.15}
             transmission={1}
-            color={isActive ? step.color : "#444"}
+            color={isActive ? step.color : "#666"}
             emissive={step.color}
-            emissiveIntensity={isActive ? 15 : 0.5}
-            metalness={0.2}
+            emissiveIntensity={isActive ? 25 : 1}
+            metalness={0.4}
             roughness={0}
-            ior={1.5}
+            ior={1.7}
           />
         </RoundedBox>
 
@@ -158,8 +158,21 @@ export const WebDiagram = () => {
   return (
     <section className="relative w-full h-[900px] bg-[#020205] overflow-hidden flex items-center justify-center py-24">
       <div className="absolute top-16 text-center z-10 w-full px-6">
-        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2 drop-shadow-[4px_4px_10px_rgba(0,0,0,0.8)]">SYNAPTIC MISSION FLOW</h2>
-        <p className="text-primary text-sm font-black tracking-[0.4em] uppercase drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">Real-time Pipeline Intelligence</p>
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-4 drop-shadow-[0_10px_20px_rgba(0,0,0,1)] bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent"
+        >
+          SYNAPTIC MISSION FLOW
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-primary text-lg md:text-xl font-black tracking-[0.5em] uppercase drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]"
+        >
+          Real-time Pipeline Intelligence
+        </motion.p>
       </div>
 
       <div className="w-full h-full">
