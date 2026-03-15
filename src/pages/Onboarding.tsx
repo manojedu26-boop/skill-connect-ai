@@ -93,18 +93,20 @@ const SplineBot = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 30, stiffness: 200 };
+  // High damping and low stiffness for "slow, taking its own time" movement
+  const springConfig = { damping: 100, stiffness: 40 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // Rotation values for the head/body
-  const rotateX = useTransform(smoothY, [0, 1000], [20, -20]);
-  const rotateY = useTransform(smoothX, [0, 1500], [-30, 30]);
+  // Rotation values for the head/body to feel truly 3D
+  const rotateX = useTransform(smoothY, [0, 1000], [15, -15]);
+  const rotateY = useTransform(smoothX, [0, 1500], [-25, 25]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      // Offset so it follows but stays slightly clear of cursor
+      mouseX.set(e.clientX + 40);
+      mouseY.set(e.clientY + 40);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
@@ -112,63 +114,65 @@ const SplineBot = () => {
 
   return (
     <motion.div
-      className="fixed z-50 pointer-events-none"
+      className="fixed z-[60] pointer-events-none"
       style={{
-        left: useTransform(smoothX, (val) => (val as number) - 50),
-        top: useTransform(smoothY, (val) => (val as number) - 120),
-        perspective: "1000px"
+        left: smoothX,
+        top: smoothY,
+        perspective: "1200px"
       }}
     >
       <motion.div
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative h-24 w-20"
+        className="relative h-32 w-28"
       >
-        {/* Robot Head */}
+        {/* R4X Bot Structure */}
+        
+        {/* Glowing Head Dome (Translucent Gradient) */}
         <motion.div 
-          className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white to-slate-200 border border-white/40 shadow-2xl flex flex-col items-center justify-center overflow-hidden"
-          style={{ transform: "translateZ(20px)" }}
+          className="absolute top-0 left-1/2 -ml-10 h-20 w-20 rounded-full bg-gradient-to-tr from-purple-500/80 via-rose-500/60 to-orange-400/40 border border-white/30 backdrop-blur-md shadow-[0_0_40px_rgba(236,72,153,0.3)] flex items-center justify-center overflow-hidden"
+          style={{ transform: "translateZ(30px)" }}
         >
-          {/* Facial Screen */}
-          <div className="h-2/3 w-[85%] bg-[#0B1221] rounded-2xl relative mt-2 flex items-center justify-center">
-             <div className="flex gap-4">
-                {/* Eyes */}
-                {[0, 1].map((i) => (
-                  <motion.div 
-                    key={i}
-                    className="h-2 w-2 rounded-full bg-primary"
-                    animate={{ 
-                      scaleY: [1, 1, 0.1, 1],
-                      boxShadow: ["0 0 10px #10b981", "0 0 20px #10b981", "0 0 10px #10b981"]
-                    }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity,
-                      repeatDelay: i * 0.5
-                    }}
-                  />
-                ))}
-             </div>
-             {/* Scanning Line */}
-             <motion.div 
-               className="absolute inset-x-2 h-[1px] bg-primary/40 blur-[1px]"
-               animate={{ top: ["20%", "80%", "20%"] }}
-               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-             />
+          {/* Facial Screen / Eyes */}
+          <div className="flex gap-3 mt-2">
+             {[0, 1].map((i) => (
+               <motion.div 
+                 key={i}
+                 className="h-2 w-2 rounded-full bg-white shadow-[0_0_15px_#fff]"
+                 animate={{ 
+                   scaleY: [1, 1, 0.1, 1],
+                   opacity: [1, 1, 0.5, 1]
+                 }}
+                 transition={{ 
+                   duration: 4, 
+                   repeat: Infinity,
+                   repeatDelay: i * 0.8
+                 }}
+               />
+             ))}
           </div>
-          {/* Ambient Glow */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none" />
+          
+          {/* Inner Neural Pulse */}
+          <motion.div 
+            className="absolute inset-0 bg-white/10 blur-xl"
+            animate={{ opacity: [0.1, 0.3, 0.1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
         </motion.div>
 
-        {/* Robot Body / Base */}
+        {/* Sphere Body (High-Reflectivity Finish) */}
         <motion.div 
-          className="absolute -bottom-10 left-1/2 -ml-8 h-12 w-16 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 shadow-xl border border-white/20"
-          style={{ transform: "translateZ(0px) rotateX(10deg)" }}
-        />
+          className="absolute -bottom-2 left-1/2 -ml-12 h-24 w-24 rounded-full bg-gradient-to-br from-slate-50 via-slate-200 to-slate-400 border border-white/50 shadow-2xl"
+          style={{ transform: "translateZ(0px)" }}
+        >
+           {/* Ambient Polish / Reflection */}
+           <div className="absolute top-4 left-6 w-8 h-8 bg-white/60 blur-md rounded-full" />
+           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/10 rounded-full" />
+        </motion.div>
 
-        {/* Thruster Glow */}
+        {/* Shadow / Thruster Base */}
         <motion.div 
-          className="absolute -bottom-14 left-1/2 -ml-4 h-8 w-8 bg-primary/20 blur-xl rounded-full"
-          animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
+          className="absolute -bottom-8 left-1/2 -ml-8 h-4 w-16 bg-black/20 blur-xl rounded-full"
+          animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.div>
