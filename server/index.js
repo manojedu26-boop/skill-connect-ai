@@ -23,6 +23,9 @@ app.get('/api/health', (req, res) => {
 });
 
 const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`--- Server Intelligence Active ---`);
+  console.log(`Local Access: http://localhost:${PORT}`);
+  console.log(`Network Access: http://YOUR_IP_ADDRESS:${PORT}`);
+  console.log(`----------------------------------`);
 });
