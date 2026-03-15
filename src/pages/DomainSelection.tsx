@@ -74,7 +74,8 @@ const DomainSelection = () => {
       const token = localStorage.getItem("skillswap_token");
       if (!token) throw new Error("No session found");
 
-      const response = await fetch("http://localhost:5000/api/auth/profile", {
+      const apiUrl = `http://${window.location.hostname}:5000/api/auth/profile`;
+      const response = await fetch(apiUrl, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
