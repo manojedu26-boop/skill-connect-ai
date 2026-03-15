@@ -42,6 +42,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { mockFreelancers, mockProjects } from "@/data/mockData";
+import Aura from "./Aura";
 
 const freelancerNavItems = [
   { title: "Dashboard", url: "/freelancer-dashboard", icon: LayoutDashboard },
@@ -86,7 +87,7 @@ function AppSidebar({ onUpgrade }: { onUpgrade: () => void }) {
   const currentNavItems = role === "client" ? clientNavItems : freelancerNavItems;
 
   return (
-    <Sidebar collapsible="icon" className="border-none bg-[#0B1221] text-white interlocking-nav h-screen sticky top-0">
+    <Sidebar collapsible="icon" className="border-none bg-deep-space text-white interlocking-nav h-screen sticky top-0">
       <SidebarContent className="flex flex-col justify-between py-8 px-2">
         <div>
           <div className="mb-10 px-6 flex items-center gap-3">
@@ -227,8 +228,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <AppSidebar onUpgrade={() => setIsPremiumModalOpen(true)} />
         </div>
         
-        <div className="flex flex-1 flex-col relative">
-          <header className="sticky top-0 z-30 flex h-20 items-center justify-between px-8 border-b border-slate-200 bg-white">
+        <div className="flex flex-1 flex-col relative overflow-hidden">
+          <div className="progress-rail sticky top-0 z-[60]" />
+          <header className="sticky top-[3px] z-30 flex h-20 items-center justify-between px-8 border-b border-white/5 bg-deep-space/80 backdrop-blur-xl">
             <div className="flex items-center gap-6">
               <div className="md:hidden">
                  <SidebarTrigger />
@@ -336,6 +338,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <main className="flex-1 overflow-auto p-8 lg:p-10 space-y-10">
             {children}
           </main>
+          <Aura />
         </div>
       </div>
     </SidebarProvider>
