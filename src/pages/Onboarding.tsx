@@ -1,10 +1,92 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, ArrowRight, Sparkles, Globe, Users, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/hero-team.png";
+
+const BrandAnimation = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 150 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
+      }
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  const text = "SkillSwap";
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative w-full py-12 flex justify-center items-center overflow-hidden mb-8"
+    >
+      {/* Background Glow */}
+      <motion.div 
+        className="absolute w-64 h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none"
+        style={{
+          left: useTransform(smoothX, (val) => val - 128),
+          top: useTransform(smoothY, (val) => val - 128),
+        }}
+      />
+
+      <div className="relative flex">
+        {text.split("").map((char, i) => {
+          const charRef = useRef<HTMLSpanElement>(null);
+          
+          return (
+            <motion.span
+              key={i}
+              ref={charRef}
+              className="text-7xl md:text-9xl font-black tracking-tighter cursor-default relative"
+              style={{
+                color: "#1a1a1a",
+                WebkitTextStroke: "1px rgba(0,0,0,0.1)",
+              }}
+            >
+              {/* Blurred Base */}
+              <span className="opacity-20 blur-sm">{char}</span>
+              
+              {/* Interactive Clear Overlayer */}
+              <motion.span
+                className="absolute inset-0 text-foreground"
+                style={{
+                  clipPath: useTransform(
+                    [smoothX, smoothY],
+                    ([x, y]) => {
+                      if (!charRef.current) return `circle(0px at 0px 0px)`;
+                      const rect = charRef.current.getBoundingClientRect();
+                      const parentRect = containerRef.current!.getBoundingClientRect();
+                      const localX = (x as number) - (rect.left - parentRect.left);
+                      const localY = (y as number) - (rect.top - parentRect.top);
+                      return `circle(120px at ${localX}px ${localY}px)`;
+                    }
+                  ),
+                  filter: "drop-shadow(0 0 20px rgba(16, 185, 129, 0.3))",
+                }}
+              >
+                {char}
+              </motion.span>
+            </motion.span>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -78,8 +160,10 @@ const Onboarding = () => {
       </nav>
 
       {/* Hero Section */}
-      <main className="flex-1 pt-32 lg:pt-48">
+      <main className="flex-1 pt-32 lg:pt-40">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <BrandAnimation />
+          
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
             <div className="space-y-8">
