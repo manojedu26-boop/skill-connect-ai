@@ -106,14 +106,7 @@ const Onboarding = () => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.from(".hero-content", {
-        y: 100,
-        opacity: 0,
-        duration: 2,
-        ease: "power4.out",
-        stagger: 0.2
-      });
-
+      // Parallax effect for cards and background elements
       gsap.to(".parallax-bg", {
         y: (i, el) => -100 * parseFloat(el.dataset.speed || "1"),
         scrollTrigger: {
@@ -204,26 +197,24 @@ const Onboarding = () => {
             {/* Left Content */}
             <div className="space-y-8">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="hero-content inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary"
               >
                 <Sparkles className="h-4 w-4" />
                 <span>AI-Powered Marketplace v2.0 is live</span>
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                className="hero-content text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] kinetic-text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]"
               >
                 Hire the top {" "}
                 <motion.span 
                   className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent italic"
                   animate={{ 
                     scale: [1, 1.05, 1],
-                    skewX: [-1, 1, -1],
                   }}
                   transition={{ 
                     duration: 4, 
@@ -237,7 +228,9 @@ const Onboarding = () => {
               </motion.h1>
 
               <motion.p 
-                className="hero-content text-xl text-muted-foreground leading-relaxed max-w-xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-xl text-muted-foreground leading-relaxed max-w-xl"
               >
                 Connect with vetted software engineers, designers, and project managers. SkillSwap uses Gemini AI to match you with perfection.
               </motion.p>
