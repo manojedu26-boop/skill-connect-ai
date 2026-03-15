@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import SplashScreen from "./components/SplashScreen";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,51 +29,63 @@ import RoleProtectedRoute from "./components/RoleProtectedRoute";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <InteractiveBackground />
-        <FloatingBot />
-        <Routes>
-          <Route path="/" element={<Onboarding />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Default Routing Strategy */}
-          <Route path="/dashboard" element={<DashboardRedirect />} />
+const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
 
-          {/* Freelancer Restricted Routes */}
-          <Route element={<RoleProtectedRoute allowedRoles={["freelancer"]} />}>
-            <Route path="/freelancer-dashboard" element={<FreelancerDashboard />} />
-            <Route path="/my-proposals" element={<MyProposals />} />
-            <Route path="/my-portfolio" element={<Portfolio />} />
-          </Route>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AnimatePresence mode="wait">
+          {showSplash ? (
+            <SplashScreen key="splash" onComplete={() => setShowSplash(false)} />
+          ) : (
+            <>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <InteractiveBackground />
+                <FloatingBot />
+                <Routes>
+                  <Route path="/" element={<Onboarding />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  
+                  {/* Default Routing Strategy */}
+                  <Route path="/dashboard" element={<DashboardRedirect />} />
 
-          {/* Client Restricted Routes */}
-          <Route element={<RoleProtectedRoute allowedRoles={["client"]} />}>
-            <Route path="/client-dashboard" element={<ClientDashboard />} />
-            <Route path="/freelancers" element={<Freelancers />} />
-            <Route path="/freelancers/:id" element={<FreelancerProfile />} />
-          </Route>
+                  {/* Freelancer Restricted Routes */}
+                  <Route element={<RoleProtectedRoute allowedRoles={["freelancer"]} />}>
+                    <Route path="/freelancer-dashboard" element={<FreelancerDashboard />} />
+                    <Route path="/my-proposals" element={<MyProposals />} />
+                    <Route path="/my-portfolio" element={<Portfolio />} />
+                  </Route>
 
-          {/* Shared Authenticated Routes */}
-          <Route element={<RoleProtectedRoute />}>
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/ai-assistant" element={<AIAssistant />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/pricing" element={<Pricing />} />
-          </Route>
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+                  {/* Client Restricted Routes */}
+                  <Route element={<RoleProtectedRoute allowedRoles={["client"]} />}>
+                    <Route path="/client-dashboard" element={<ClientDashboard />} />
+                    <Route path="/freelancers" element={<Freelancers />} />
+                    <Route path="/freelancers/:id" element={<FreelancerProfile />} />
+                  </Route>
+
+                  {/* Shared Authenticated Routes */}
+                  <Route element={<RoleProtectedRoute />}>
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/bookmarks" element={<Bookmarks />} />
+                    <Route path="/ai-assistant" element={<AIAssistant />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                  </Route>
+                  
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </>
+          )}
+        </AnimatePresence>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
