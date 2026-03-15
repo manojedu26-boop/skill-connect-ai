@@ -7,11 +7,9 @@ import {
   Dna, 
   Video, 
   BarChart3, 
-  Globe2, 
   ArrowRight,
   ShieldCheck
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const domains = [
   {
@@ -66,12 +64,11 @@ const domains = [
 
 const DomainSelection = () => {
   const [selected, setSelected] = useState<string | null>(null);
-  const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const navigate = useNavigate();
 
   const handleSelection = (id: string) => {
     setSelected(id);
-    // Simulate saving selection
     const userStr = localStorage.getItem("skillswap_user");
     if (userStr) {
       const user = JSON.parse(userStr);
@@ -81,12 +78,11 @@ const DomainSelection = () => {
     
     setTimeout(() => {
       navigate("/dashboard");
-    }, 800);
+    }, 1200);
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 sm:p-12 overflow-hidden relative">
-      {/* Subtle Background Elements for White Theme */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-teal-500/5 blur-[120px] rounded-full" />
@@ -95,13 +91,13 @@ const DomainSelection = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-6xl w-full relative z-10 text-center space-y-4 mb-16"
+        className="max-w-6xl w-full relative z-10 text-center space-y-4 mb-20"
       >
         <span className="px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-primary text-[10px] font-black uppercase tracking-[0.3em]">
           Initialization Phase II
         </span>
-        <h1 className="text-4xl md:text-6xl font-black text-navy tracking-tight">
-          Select Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-600">Mission Domain</span>
+        <h1 className="text-4xl md:text-6xl font-black text-[#0B1221] tracking-tight">
+          Select Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-400">Mission Domain</span>
         </h1>
         <p className="text-slate-500 max-w-2xl mx-auto font-medium text-lg leading-relaxed">
           The neural network requires a sector anchor to optimize your professional trajectory. 
@@ -111,7 +107,7 @@ const DomainSelection = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full relative z-10">
         {domains.map((domain, i) => {
-          const isActive = hoveredFeature === i;
+          const isHovered = hoveredIndex === i;
           return (
             <motion.div
               key={domain.id}
@@ -119,93 +115,84 @@ const DomainSelection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ 
-                scale: 1.02,
-                rotateX: 2,
-                rotateY: -2,
-                transition: { duration: 0.2 }
+                rotateX: 5,
+                rotateY: -5,
+                y: -10,
+                transition: { duration: 0.3 }
               }}
-              onMouseEnter={() => setHoveredFeature(i)}
-              onMouseLeave={() => setHoveredFeature(null)}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => handleSelection(domain.id)}
-              className={`group relative h-[320px] cursor-pointer rounded-[2.5rem] border overflow-hidden transition-all duration-500 transform-gpu perspective-1000
+              className={`group relative h-[320px] cursor-pointer rounded-[3rem] border overflow-hidden transition-all duration-500 transform-gpu perspective-1000
                 ${selected === domain.id 
-                  ? 'border-primary ring-4 ring-primary/20 bg-navy' 
-                  : 'border-slate-100 bg-navy shadow-xl shadow-navy/10 hover:shadow-2xl hover:shadow-navy/20'}`}
+                  ? 'border-primary ring-4 ring-primary/20 shadow-2xl scale-[0.98]' 
+                  : 'border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-primary/10'}`}
               style={{ transformStyle: "preserve-3d" }}
             >
-              {/* Background Image with High-Fidelity "Pop" Overlay */}
+              {/* High-Fidelity Pop Image */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <motion.img 
                   src={domain.image} 
                   animate={{ 
-                    scale: isActive || selected === domain.id ? 1.4 : 1.1,
-                    opacity: isActive || selected === domain.id ? 0.9 : 0.6,
-                    filter: isActive || selected === domain.id ? "contrast(1.2) brightness(1.2)" : "contrast(1) brightness(0.8)"
+                    scale: isHovered || selected === domain.id ? 1.4 : 1.1,
+                    opacity: isHovered || selected === domain.id ? 1 : 0.6,
+                    filter: isHovered || selected === domain.id ? "brightness(1) contrast(1.1)" : "brightness(0.7) contrast(1)"
                   }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="w-full h-full object-cover transition-all" 
+                  className="w-full h-full object-cover transition-all duration-700" 
                 />
-                <div className="absolute inset-0 bg-[#0B1221]/70 group-hover:bg-[#0B1221]/40 transition-colors duration-500" />
-                <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay opacity-40 group-hover:opacity-60 transition-opacity`} />
+                <div className="absolute inset-0 bg-[#0B1221]/60 group-hover:bg-[#0B1221]/30 transition-colors duration-500" />
+                <div className={`absolute inset-0 bg-gradient-to-br ${domain.color} mix-blend-overlay opacity-30 group-hover:opacity-50`} />
               </div>
 
-              <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(60px)" }}>
+              <div className="p-8 h-full flex flex-col justify-between relative z-10" style={{ transform: "translateZ(80px)" }}>
                 <div className="space-y-4">
-                  <motion.div 
-                    animate={{ 
-                      scale: isActive ? 1.1 : 1,
-                      y: isActive ? -5 : 0
-                    }}
-                    className="h-14 w-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500 shadow-2xl"
-                  >
+                  <div className={`h-14 w-14 rounded-2xl flex items-center justify-center text-white border border-white/20 transition-all duration-500 shadow-xl
+                    ${isHovered ? 'bg-primary border-primary' : 'bg-white/10 backdrop-blur-md'}`}>
                     {domain.icon}
-                  </motion.div>
-                  <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-lg">{domain.title}</h3>
-                  <p className="text-slate-200 text-sm leading-relaxed font-bold group-hover:text-white transition-colors drop-shadow-md">
+                  </div>
+                  <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-xl">{domain.title}</h3>
+                  <p className="text-slate-100 text-sm leading-relaxed font-bold group-hover:text-white transition-colors opacity-80 group-hover:opacity-100 drop-shadow-md">
                     {domain.desc}
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${selected === domain.id ? 'text-primary' : 'text-slate-300'}`}>
-                    {selected === domain.id ? 'Mission Locked' : 'Initialization Ready'}
+                  <span className={`text-[10px] font-black uppercase tracking-[0.2em] transform transition-all duration-500
+                    ${selected === domain.id ? 'text-primary scale-110' : 'text-slate-300'}`}>
+                    {selected === domain.id ? 'Mission Synchronized' : 'Initialization Ready'}
                   </span>
-                  <motion.div 
-                    animate={{ 
-                      x: isActive ? 5 : 0,
-                      scale: isActive ? 1.2 : 1
-                    }}
-                    className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
-                      ${selected === domain.id ? 'bg-primary border-primary text-white' : 'border-white/30 text-white group-hover:border-white/60'}`}
-                  >
+                  <div className={`h-10 w-10 rounded-full flex items-center justify-center border transition-all duration-500 
+                    ${selected === domain.id ? 'bg-primary border-primary text-white' : 'border-white/30 text-white group-hover:border-primary group-hover:bg-primary'}`}>
                     <ArrowRight className={`h-5 w-5 ${selected === domain.id ? 'animate-pulse' : ''}`} />
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
-              {/* Premium Shine Effect */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
             </motion.div>
           );
         })}
       </div>
 
-            {/* Premium Shine Effect */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-x-[-100%] group-hover:translate-x-[100%]" />
-          </motion.div>
-        ))}
-      </div>
-
       <AnimatePresence>
         {selected && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed bottom-12 z-50 px-8 py-4 bg-primary rounded-full shadow-[0_0_50px_rgba(var(--primary),0.5)] flex items-center gap-4"
+            className="fixed bottom-12 z-50 px-10 py-5 bg-[#0B1221] text-white rounded-full shadow-[0_20px_60px_rgba(0,0,0,0.5)] flex items-center gap-4 border border-white/10"
           >
-            <div className="h-2 w-2 rounded-full bg-white animate-ping" />
-            <span className="text-white font-black uppercase tracking-widest text-sm">Synchronizing Digital Identity...</span>
+            <div className="flex gap-1">
+              {[0, 1, 2].map((dot) => (
+                <motion.div
+                  key={dot}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ repeat: Infinity, duration: 1, delay: dot * 0.2 }}
+                  className="h-2 w-2 rounded-full bg-primary"
+                />
+              ))}
+            </div>
+            <span className="font-black uppercase tracking-[0.2em] text-xs">Calibrating Professional Trajectory...</span>
           </motion.div>
         )}
       </AnimatePresence>
