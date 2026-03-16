@@ -129,6 +129,7 @@ const App = () => {
 // Google OAuth Callback Handler (Supabase redirects here)
 function GoogleAuthCallback() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -139,9 +140,18 @@ function GoogleAuthCallback() {
           import.meta.env.VITE_SUPABASE_ANON_KEY
         );
 
+        // Handle PKCE code exchange if present in URL
+        const url = new URL(window.location.href);
+        const code = url.searchParams.get("code");
+        if (code) {
+          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          if (exchangeError) throw new Error("Code exchange failed: " + exchangeError.message);
+        }
+
         // Supabase auto-handles the OAuth code exchange from URL hash
         const { data: { session }, error } = await supabase.auth.getSession();
-        if (error || !session) throw new Error("No session");
+        if (error) throw new Error("Session error: " + error.message);
+        if (!session) throw new Error("No session returned from Supabase. Ensure Vercel environment variables are set and Supabase redirect URLs are correct.");
 
         const user = session.user;
         const meta = user.user_metadata;
@@ -163,9 +173,11 @@ function GoogleAuthCallback() {
         setTimeout(() => {
           window.location.href = "/select-domain";
         }, 1000);
-      } catch {
+      } catch (err: any) {
+        console.error("Auth Callback Error:", err);
+        setErrorMessage(err.message || String(err));
         setStatus("error");
-        setTimeout(() => { window.location.href = "/login"; }, 2000);
+        setTimeout(() => { window.location.href = "/login"; }, 4000);
       }
     };
     handleCallback();
@@ -198,6 +210,9 @@ function GoogleAuthCallback() {
               <svg className="h-8 w-8 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </div>
             <p className="text-sm font-black text-navy uppercase tracking-widest">Authentication Failed</p>
+            <p className="text-[10px] font-bold text-orange max-w-sm mx-auto bg-orange/5 p-3 rounded-lg border border-orange/20">
+              Error Details: {errorMessage}
+            </p>
             <p className="text-xs text-slate-400">Redirecting to login...</p>
           </>
         )}
