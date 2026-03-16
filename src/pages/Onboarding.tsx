@@ -10,8 +10,10 @@ import {
 import heroImage from "@/assets/hero-team.png";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { VFXCanvas } from "../components/VFXCanvas";
-import { WebDiagram } from "../components/WebDiagram";
+import { lazy, Suspense } from "react";
+
+const VFXCanvas = lazy(() => import("../components/VFXCanvas").then(m => ({ default: m.VFXCanvas })));
+const WebDiagram = lazy(() => import("../components/WebDiagram").then(m => ({ default: m.WebDiagram })));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -135,7 +137,9 @@ const Onboarding = () => {
 
   return (
     <div ref={containerRef} className="flex min-h-screen flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground relative overflow-hidden">
-      <VFXCanvas />
+      <Suspense fallback={null}>
+        <VFXCanvas />
+      </Suspense>
       {/* Premium Glassmorphism Navbar */}
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-background/60 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
@@ -436,7 +440,9 @@ const Onboarding = () => {
       </section>
 
       {/* 3D Pipeline Visualizer Section */}
-      <WebDiagram />
+      <Suspense fallback={<div className="h-[900px] w-full flex items-center justify-center bg-[#020205]">Loading Neural Pipeline...</div>}>
+        <WebDiagram />
+      </Suspense>
 
       {/* Footer */}
       <footer className="border-t border-white/5 py-12">
