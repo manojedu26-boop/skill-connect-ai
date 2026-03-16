@@ -130,7 +130,7 @@ const App = () => {
 function GoogleAuthCallback() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
-  useState(() => {
+  useEffect(() => {
     const handleCallback = async () => {
       try {
         const { createClient } = await import("@supabase/supabase-js");
@@ -169,7 +169,7 @@ function GoogleAuthCallback() {
       }
     };
     handleCallback();
-  });
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
