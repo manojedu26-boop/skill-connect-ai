@@ -108,7 +108,7 @@ const Blob = () => {
 
   return (
     <mesh ref={meshRef} scale={1.5}>
-      <sphereGeometry args={[1, 64, 64]} />
+      <sphereGeometry args={[1, 32, 32]} />
       <shaderMaterial
         vertexShader={BlobShader.vertexShader}
         fragmentShader={BlobShader.fragmentShader}
@@ -121,8 +121,13 @@ const Blob = () => {
 
 export const VFXCanvas = () => {
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none opacity-40">
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+    <div className="fixed inset-0 -z-10 pointer-events-none opacity-30">
+      <Canvas 
+        camera={{ position: [0, 0, 5], fov: 45 }} 
+        dpr={[1, 1.5]}
+        gl={{ antialias: false, powerPreference: "low-power" }}
+        frameloop="demand"
+      >
         <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} />
         <Blob />

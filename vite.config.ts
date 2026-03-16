@@ -18,4 +18,20 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Increase chunk size warning threshold
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks - separate heavy libs from main bundle
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-3d": ["three", "@react-three/fiber", "@react-three/drei"],
+          "vendor-animation": ["framer-motion", "gsap"],
+          "vendor-ui": ["@radix-ui/react-dialog", "@radix-ui/react-popover", "@radix-ui/react-select"],
+          "vendor-ai": ["@google/generative-ai"],
+        },
+      },
+    },
+  },
 }));
