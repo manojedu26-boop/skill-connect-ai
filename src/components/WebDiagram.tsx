@@ -79,23 +79,23 @@ const LaserNode = ({ step, isActive }: { step: typeof steps[0], isActive: boolea
     <group position={step.pos as [number, number, number]}>
       <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
         <RoundedBox args={[1, 1, 1]} radius={0.15} smoothness={4} ref={meshRef}>
-          {/* High-Fidelity Glass/Laser Material */}
+          {/* High-Fidelity Glass/Laser Material (Optimized for Perf) */}
           <MeshTransmissionMaterial
-            backside
-            samples={16}
-            thickness={5}
-            chromaticAberration={0.2}
-            anisotropy={0.5}
-            distortion={0.3}
-            distortionScale={0.3}
-            temporalDistortion={0.15}
+            samples={6} // Reduced from 16 for better performance
+            thickness={2}
+            chromaticAberration={0.1}
+            anisotropy={0.2}
+            distortion={0.2}
+            distortionScale={0.2}
+            temporalDistortion={0.0} // Disable purely temporal to save cycles
             transmission={1}
-            color={isActive ? step.color : "#666"}
+            color={isActive ? step.color : "#333"}
             emissive={step.color}
-            emissiveIntensity={isActive ? 25 : 1}
-            metalness={0.4}
-            roughness={0}
-            ior={1.7}
+            emissiveIntensity={isActive ? 8 : 0.5}
+            metalness={0.2}
+            roughness={0.1}
+            ior={1.5}
+            resolution={256} // Fixed lower resolution for transmission
           />
         </RoundedBox>
 
@@ -176,7 +176,11 @@ export const WebDiagram = () => {
       </div>
 
       <div className="w-full h-full">
-        <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+        <Canvas 
+          dpr={[1, 1.5]} 
+          gl={{ antialias: false, powerPreference: "high-performance", alpha: true }}
+          performance={{ min: 0.5 }}
+        >
           <PerspectiveCamera makeDefault position={[0, 8, 16]} fov={32} />
           <OrbitControls enableZoom={false} enablePan={false} />
           

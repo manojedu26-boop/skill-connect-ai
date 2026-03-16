@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SplashScreen from "./components/SplashScreen";
 import { Toaster } from "@/components/ui/toaster";

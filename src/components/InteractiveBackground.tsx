@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function InteractiveBackground() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth out the mouse movement natively outside React render cycle
+  const smoothX = useSpring(mouseX, { damping: 50, stiffness: 200, mass: 0.5 });
+  const smoothY = useSpring(mouseY, { damping: 50, stiffness: 200, mass: 0.5 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      // Update motion values directly = ZERO React re-renders!
+      mouseX.set(e.clientX - 300);
+      mouseY.set(e.clientY - 300);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden bg-background">
@@ -43,13 +50,12 @@ export default function InteractiveBackground() {
         />
       </svg>
 
-      {/* Subtle Glowing Blobs following mouse */}
+      {/* Subtle Glowing Blobs following mouse via Motion Values (zero re-render) */}
       <motion.div
-        animate={{
-          x: mousePosition.x - 300,
-          y: mousePosition.y - 300,
+        style={{
+          x: smoothX,
+          y: smoothY,
         }}
-        transition={{ type: "spring", damping: 50, stiffness: 200, mass: 0.5 }}
         className="absolute h-[600px] w-[600px] rounded-full bg-teal/5 blur-[120px]"
       />
       
