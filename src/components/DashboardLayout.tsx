@@ -90,11 +90,26 @@ function AppSidebar({ onUpgrade }: { onUpgrade: () => void }) {
       <SidebarContent className="flex flex-col justify-between py-8 px-2">
         <div>
           <div className="mb-10 px-6 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-teal-gradient flex items-center justify-center shadow-lg shadow-teal/20">
-               <Sparkles className="h-6 w-6 text-white" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 shadow-lg shadow-teal-500/30">
+              <svg 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="h-6 w-6 text-white"
+              >
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                <polyline points="16 6 12 2 8 6" />
+                <line x1="12" y1="2" x2="12" y2="15" />
+              </svg>
             </div>
             {!collapsed && (
-              <h1 className="text-2xl font-black tracking-tighter text-white">SkillSwap</h1>
+              <div className="flex flex-col">
+                <span className="text-xl font-black tracking-tight text-white leading-none">SKILL<span className="text-teal-400">SWAP</span></span>
+                <span className="text-[9px] font-bold tracking-[0.2em] text-slate-400 uppercase">Global Network</span>
+              </div>
             )}
           </div>
           <SidebarGroup>
