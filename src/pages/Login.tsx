@@ -47,7 +47,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const apiUrl = `https://skillswap-api-cj2f.onrender.com/api/auth/login`;
+      const apiUrl = `http://localhost:5000/api/auth/login`;
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

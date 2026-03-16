@@ -74,7 +74,7 @@ const DomainSelection = () => {
       const token = localStorage.getItem("skillswap_token");
       if (!token) throw new Error("No session found");
 
-      const apiUrl = `https://skillswap-api-cj2f.onrender.com/api/auth/profile`;
+      const apiUrl = `http://localhost:5000/api/auth/profile`;
       const response = await fetch(apiUrl, {
         method: "PATCH",
         headers: {
