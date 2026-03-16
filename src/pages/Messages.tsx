@@ -121,7 +121,7 @@ export default function Messages() {
 
   return (
     <DashboardLayout>
-      <div className="flex h-[calc(100vh-10rem)] gap-6 antialiased">
+      <div className="flex h-full gap-6 antialiased" style={{ height: 'calc(100vh - 9rem)' }}>
         
         {/* PANEL 1: CONTACTS */}
         <div className="w-80 shrink-0 flex flex-col bg-white rounded-[2.5rem] border border-slate-100 shadow-soft overflow-hidden">

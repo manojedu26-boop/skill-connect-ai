@@ -86,7 +86,7 @@ function AppSidebar({ onUpgrade }: { onUpgrade: () => void }) {
   const currentNavItems = role === "client" ? clientNavItems : freelancerNavItems;
 
   return (
-    <Sidebar collapsible="icon" className="border-none bg-[#0B1221] text-white interlocking-nav h-screen sticky top-0">
+    <Sidebar collapsible="icon" className="border-none bg-[#0B1221] text-white h-screen sticky top-0 shrink-0">
       <SidebarContent className="flex flex-col justify-between py-8 px-2">
         <div>
           <div className="mb-10 px-6 flex items-center gap-3">
@@ -221,13 +221,13 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background network-pattern">
+      <div className="flex h-screen w-full overflow-hidden bg-background network-pattern">
         <PremiumPaymentModal open={isPremiumModalOpen} onOpenChange={setIsPremiumModalOpen} />
         <div className="interlocking-nav z-40 bg-[#0B1221] text-white">
           <AppSidebar onUpgrade={() => setIsPremiumModalOpen(true)} />
         </div>
         
-        <div className="flex flex-1 flex-col relative">
+        <div className="flex flex-1 flex-col h-screen overflow-hidden relative">
           <header className="sticky top-0 z-30 flex h-20 items-center justify-between px-8 border-b border-slate-200 bg-white">
             <div className="flex items-center gap-6">
               <div className="md:hidden">
@@ -338,7 +338,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
           </header>
           
-          <main className="flex-1 overflow-auto p-8 lg:p-10 space-y-10">
+          <main className="flex-1 overflow-y-auto p-8 lg:p-10">
             {children}
           </main>
         </div>
