@@ -7,7 +7,11 @@ const authRoutes = require('./auth');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: '*', // Allow all domains including Vercel and localhost
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '50mb' })); 
 
 // Routes
