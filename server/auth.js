@@ -51,8 +51,15 @@ router.post('/register', async (req, res) => {
 
     console.log('[DB Success] Profile linked.');
 
+    if (!authData.session) {
+      return res.status(201).json({ 
+        requireEmailConfirmation: true,
+        message: "Registration successful. Please check your email to confirm your account." 
+      });
+    }
+
     res.status(201).json({ 
-      token: authData.session?.access_token, 
+      token: authData.session.access_token, 
       user: { 
         id: authData.user.id, 
         email: authData.user.email, 

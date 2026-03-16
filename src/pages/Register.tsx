@@ -25,6 +25,12 @@ const Register = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
 
+      if (data.requireEmailConfirmation) {
+        toast.success(data.message || "Please check your email to confirm your account!");
+        navigate("/login");
+        return;
+      }
+
       localStorage.setItem("skillswap_token", data.token);
       localStorage.setItem("skillswap_user", JSON.stringify(data.user));
       toast.success("Registration successful!");
