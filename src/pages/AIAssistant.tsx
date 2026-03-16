@@ -80,7 +80,7 @@ const AIAssistant = () => {
 
   return (
     <DashboardLayout>
-      <div className="mx-auto flex max-w-3xl flex-col" style={{ height: 'calc(100vh - 9rem)' }}>
+      <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col pb-6">
         <div className="mb-4 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
             <Sparkles className="h-5 w-5 text-primary-foreground" />
@@ -103,9 +103,9 @@ const AIAssistant = () => {
           </div>
         </div>
 
-        <Card className="flex flex-1 flex-col shadow-card">
-          <CardContent className="flex h-full flex-col p-0">
-            <div className="flex-1 overflow-auto p-5 space-y-4">
+        <Card className="flex flex-1 flex-col shadow-card overflow-hidden">
+          <CardContent className="flex h-full flex-col p-0 overflow-hidden">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
               {messages.map(msg => (
                 <motion.div
                   key={msg.id}

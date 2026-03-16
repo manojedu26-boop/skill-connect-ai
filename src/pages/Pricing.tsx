@@ -108,7 +108,7 @@ export default function Pricing() {
                    ))}
                 </ul>
 
-                <Button onClick={triggerUpgrade} variant="hero" className="w-full h-14 rounded-2xl bg-teal text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-teal/20 scale-100 hover:scale-105 active:scale-95 transition-all">
+                <Button onClick={() => { window.dispatchEvent(new CustomEvent("open_premium_modal", { detail: { plan: 'pro' } })) }} variant="hero" className="w-full h-14 rounded-2xl bg-teal text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-teal/20 scale-100 hover:scale-105 active:scale-95 transition-all">
                    ASCEND TO PRO
                 </Button>
             </div>
@@ -148,7 +148,7 @@ export default function Pricing() {
                ))}
             </ul>
 
-            <Button onClick={triggerUpgrade} variant="ghost" className="w-full h-14 rounded-2xl bg-[#0B1221] text-white font-black text-xs uppercase tracking-widest hover:bg-[#0B1221]/90 transition-all">
+            <Button onClick={() => { window.dispatchEvent(new CustomEvent("open_premium_modal", { detail: { plan: 'elite' } })) }} variant="ghost" className="w-full h-14 rounded-2xl bg-[#0B1221] text-white font-black text-xs uppercase tracking-widest hover:bg-[#0B1221]/90 transition-all">
                ASCEND TO ELITE
             </Button>
           </motion.div>

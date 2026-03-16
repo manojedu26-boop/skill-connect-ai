@@ -23,6 +23,17 @@ export default function PremiumPaymentModal({ open, onOpenChange }: PremiumPayme
   const [method, setMethod] = useState<"upi" | "card">("upi");
   const [loading, setLoading] = useState(false);
 
+  // Listen for the custom event to set the initial plan
+  useEffect(() => {
+    const handleOpen = (e: any) => {
+      if (e.detail?.plan) {
+        setSelectedPlan(e.detail.plan);
+      }
+    };
+    window.addEventListener("open_premium_modal", handleOpen as EventListener);
+    return () => window.removeEventListener("open_premium_modal", handleOpen as EventListener);
+  }, []);
+
   const handlePayment = () => {
     setLoading(true);
     setTimeout(() => {
@@ -65,7 +76,7 @@ export default function PremiumPaymentModal({ open, onOpenChange }: PremiumPayme
               className="p-10 space-y-10"
             >
               <div className="text-center space-y-2">
-                 <h2 className="text-4xl font-black text-navy tracking-tighter">Ascend to <span className="text-teal">Elite</span></h2>
+                 <h2 className="text-4xl font-black text-navy tracking-tighter">Ascend to <span className={selectedPlan === 'pro' ? 'text-teal' : 'text-orange'}>{selectedPlan === 'pro' ? 'Pro' : 'Elite'}</span></h2>
                  <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">Choose your architectural advantage</p>
               </div>
 

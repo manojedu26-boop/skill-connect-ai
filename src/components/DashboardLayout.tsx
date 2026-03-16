@@ -182,7 +182,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     };
     loadUser();
     
-    const handleOpenModal = () => setIsPremiumModalOpen(true);
+    const handleOpenModal = (e: any) => {
+      setIsPremiumModalOpen(true);
+    };
     window.addEventListener("user_updated", loadUser);
     window.addEventListener("open_premium_modal", handleOpenModal);
     
@@ -227,7 +229,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <div className="flex h-screen w-full overflow-hidden bg-background network-pattern">
         <PremiumPaymentModal open={isPremiumModalOpen} onOpenChange={setIsPremiumModalOpen} />
         <div className="interlocking-nav z-40 bg-[#0B1221] text-white">
-          <AppSidebar onUpgrade={() => setIsPremiumModalOpen(true)} />
+          <AppSidebar onUpgrade={() => window.dispatchEvent(new CustomEvent("open_premium_modal", { detail: { plan: 'pro' } }))} />
         </div>
         
         <div className="flex flex-1 flex-col h-screen overflow-hidden relative">
