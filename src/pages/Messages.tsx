@@ -12,10 +12,11 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Messages() {
   const location = useLocation();
+  const navigate = useNavigate();
   const directFreelancer = location.state?.freelancerName;
   const directId = location.state?.freelancerId;
 
@@ -128,7 +129,13 @@ export default function Messages() {
           <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
                <h2 className="text-xl font-black text-navy tracking-tight">Messages</h2>
-               <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-slate-50">
+               <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-slate-50" onClick={() => {
+                  const newName = prompt("Enter contact name:");
+                  if (!newName?.trim()) return;
+                  const newContact = { id: `custom_${Date.now()}`, name: newName, role: "Client", initials: newName[0].toUpperCase(), lastMsg: "Starting a new thread...", time: "Now", online: true };
+                  setContacts(prev => [newContact, ...prev]);
+                  setActiveContact(newContact);
+               }}>
                   <Plus className="h-4 w-4 text-navy" />
                </Button>
             </div>
@@ -286,55 +293,58 @@ export default function Messages() {
               exit={{ width: 0, opacity: 0 }}
               className="shrink-0 flex flex-col gap-6 overflow-hidden"
             >
-              <div className="bg-white rounded-[2rem] border border-slate-100 shadow-soft p-8 space-y-6">
+              <div className="bg-white rounded-[2rem] border border-slate-100 shadow-soft p-6 space-y-4 overflow-hidden">
                  <div className="space-y-1">
                     <p className="text-[10px] font-black text-orange uppercase tracking-[.25em]">Critical Files</p>
                     <h3 className="font-black text-navy uppercase text-sm">Asset Repository</h3>
                  </div>
                  
-                 <div className="space-y-3">
+                 <div className="space-y-2">
                     {[
                       { icon: FolderOpen, name: "Architecture_Brief.pdf", size: "2.4 MB", date: "Mar 12" },
                       { icon: Link2, name: "Prototype_V1.figma", size: "Link", date: "Mar 14" },
                       { icon: FileUp, name: "Brand_Assets.zip", size: "48 MB", date: "Mar 15" }
                     ].map((asset, i) => (
-                      <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-teal/30 cursor-pointer transition-all group">
-                         <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-navy shadow-soft group-hover:scale-110 transition-transform">
-                            <asset.icon className="h-5 w-5" />
+                      <div key={i} className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-teal/30 cursor-pointer transition-all group">
+                         <div className="h-8 w-8 rounded-xl bg-white flex items-center justify-center text-navy shadow-soft group-hover:scale-110 transition-transform shrink-0">
+                            <asset.icon className="h-4 w-4" />
                          </div>
                          <div className="flex-1 overflow-hidden">
-                            <p className="text-xs font-black truncate text-navy">{asset.name}</p>
+                            <p className="text-[11px] font-black truncate text-navy">{asset.name}</p>
                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{asset.size} • {asset.date}</p>
                          </div>
                       </div>
                     ))}
                  </div>
                  
-                 <Button variant="outline" className="w-full h-12 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[10px] uppercase tracking-widest hover:bg-slate-50">
+                 <Button variant="outline" onClick={() => navigate("/my-portfolio")} className="w-full h-10 rounded-2xl border-dashed border-slate-200 text-navy font-black text-[9px] uppercase tracking-widest hover:bg-slate-50 hover:border-teal/30 transition-all">
                     VIEW ALL CLOUD ASSETS
                  </Button>
               </div>
 
-              <div className="bg-[#0B1221] rounded-[2rem] shadow-premium p-8 space-y-6 flex-1 overflow-hidden relative">
+              <div className="bg-[#0B1221] rounded-[2rem] shadow-premium p-6 flex-1 overflow-hidden relative flex flex-col min-h-0">
                  <div className="absolute top-0 right-0 w-32 h-32 bg-teal/10 rounded-full blur-3xl -mr-16 -mt-16" />
-                 <div className="space-y-1 relative z-10">
+                 <div className="space-y-1 relative z-10 mb-4">
                     <p className="text-[10px] font-black text-teal uppercase tracking-[.25em]">Neural Bond</p>
                     <h3 className="font-black text-white uppercase text-sm">Pinned Context</h3>
                  </div>
                  
-                 <div className="space-y-4 relative z-10">
-                    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                 <div className="space-y-3 relative z-10 flex-1 overflow-y-auto">
+                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-2">
                        <div className="flex items-center justify-between">
                           <Pin className="h-3 w-3 text-orange" />
                           <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest">Mar 14</span>
                        </div>
-                       <p className="text-[11px] font-medium text-slate-300 leading-relaxed italic">"The project must prioritize server-side rendering for optimal SEO and client-side hydration for deep interactivity."</p>
+                       <p className="text-[10px] font-medium text-slate-300 leading-relaxed italic">"The project must prioritize server-side rendering for optimal SEO and client-side hydration for deep interactivity."</p>
                     </div>
                  </div>
                  
-                 <div className="mt-8 p-6 rounded-2xl bg-teal-gradient text-white space-y-3 shadow-lg shadow-teal/20">
-                    <p className="text-[9px] font-black uppercase tracking-widest opacity-80">AI Insight</p>
-                    <p className="text-xs font-bold leading-tight">Next suggested action: Finalize Milestone 1 Deliverables for approval.</p>
+                 <div className="mt-4 p-4 rounded-2xl bg-teal-gradient text-white space-y-2 shadow-lg shadow-teal/20 relative z-10">
+                    <p className="text-[8px] font-black uppercase tracking-widest opacity-80">AI Insight</p>
+                    <p className="text-[10px] font-bold leading-tight">Next: Finalize Milestone 1 Deliverables for approval.</p>
+                    <Button onClick={() => navigate("/ai-assistant")} className="w-full h-8 rounded-xl bg-white/10 text-white font-black text-[9px] uppercase tracking-widest hover:bg-white/20 transition-all mt-1">
+                       ASK AI ASSISTANT →
+                    </Button>
                  </div>
               </div>
             </motion.div>

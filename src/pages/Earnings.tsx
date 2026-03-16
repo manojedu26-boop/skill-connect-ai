@@ -1,7 +1,10 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { motion } from "framer-motion";
-import { TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight, Briefcase } from "lucide-react";
+import { TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight, Briefcase, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const earningsData = [
   { id: 1, project: "E-commerce Platform Architecture", date: "2026-03-10", amount: 1200, status: "paid" },
@@ -10,6 +13,7 @@ const earningsData = [
 ];
 
 const Earnings = () => {
+  const navigate = useNavigate();
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -135,8 +139,17 @@ const Earnings = () => {
                <p className="text-xs text-slate-500 leading-relaxed font-medium mb-4">
                  You could increase Q2 revenue by <span className="text-teal font-bold">12%</span> by switching to bi-weekly billing for your "AI Chatbot" mission.
                </p>
-               <button className="text-[10px] font-black text-teal uppercase tracking-widest hover:underline">Apply Optimization</button>
+               <Button 
+                 className="w-full h-10 rounded-2xl bg-teal text-white font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-soft gap-2"
+                 onClick={() => { 
+                   toast.success("Optimization Applied!", { description: "Bi-weekly billing activated for AI Chatbot. Revenue +12% projected." });
+                   setTimeout(() => navigate("/ai-assistant"), 1500);
+                 }}
+               >
+                 <Zap className="h-3 w-3" /> Apply Optimization
+               </Button>
             </div>
+
           </div>
         </div>
       </div>

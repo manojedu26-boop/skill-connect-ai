@@ -80,7 +80,7 @@ const AIAssistant = () => {
 
   return (
     <DashboardLayout>
-      <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col">
+      <div className="mx-auto flex max-w-3xl flex-col" style={{ height: 'calc(100vh - 9rem)' }}>
         <div className="mb-4 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
             <Sparkles className="h-5 w-5 text-primary-foreground" />

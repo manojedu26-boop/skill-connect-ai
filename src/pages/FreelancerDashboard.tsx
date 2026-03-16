@@ -131,9 +131,9 @@ const FreelancerDashboard = () => {
               <div className="relative z-10 flex flex-col md:flex-row gap-10">
                  <div className="space-y-6 max-w-sm">
                     <div className="space-y-2">
-                       <p className="text-sm font-black text-teal uppercase tracking-[0.3em] flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4" /> Capital Optimization
-                       </p>
+                     <p className="text-base font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                           <TrendingUp className="h-4 w-4" /> Capital Optimization
+                        </p>
                        <h2 className="text-3xl font-black leading-tight">Financial Trajectory <br/>Optimizer</h2>
                        <p className="text-slate-400 text-sm font-medium leading-relaxed">AI analysis of current contract density suggests a <span className="text-white">42% revenue increase</span> is achievable by pivoting to <span className="text-teal">Rust/Wasm</span> architecture nodes.</p>
                     </div>
@@ -149,13 +149,13 @@ const FreelancerDashboard = () => {
                        </div>
                     </div>
 
-                    <Button 
-                       onClick={() => navigate("/earnings")}
-                       variant="hero" 
-                       className="w-full h-12 rounded-2xl bg-teal text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-teal/20 hover:scale-105 transition-all"
-                    >
-                       EXECUTE PIVOT STRATEGY
-                    </Button>
+                     <Button 
+                        onClick={() => navigate("/earnings")}
+                        variant="hero" 
+                        className="w-full h-12 rounded-2xl bg-teal text-white font-black text-sm uppercase tracking-widest shadow-lg shadow-teal/20 hover:scale-105 transition-all"
+                     >
+                        EXECUTE PIVOT STRATEGY
+                     </Button>
                  </div>
 
                  <div className="flex-1 space-y-8">
@@ -193,9 +193,9 @@ const FreelancerDashboard = () => {
            <div className="lg:col-span-4 bento-card bg-white p-10 flex flex-col justify-between group overflow-hidden relative border border-slate-100">
               <div className="absolute -right-20 -top-20 w-48 h-48 bg-teal/5 rounded-full blur-3xl group-hover:bg-teal/10 transition-all" />
               <div className="space-y-6 relative z-10">
-                  <p className="text-sm font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
-                    <Target className="h-4 w-4" /> Market Fit Neural Grid
-                 </p>
+                   <p className="text-base font-black text-teal uppercase tracking-[0.2em] flex items-center gap-2">
+                     <Target className="h-4 w-4" /> Market Fit Neural Grid
+                  </p>
                  
                  <div className="grid grid-cols-3 gap-2">
                     {[...Array(9)].map((_, i) => (
@@ -248,7 +248,7 @@ const FreelancerDashboard = () => {
                 <ProjectCard 
                   key={p.id} 
                   project={p} 
-                  onApply={() => navigate("/messages")}
+                  onApply={() => navigate("/projects")}
                   onBookmark={() => navigate("/bookmarks")}
                 />
               ))}
@@ -261,23 +261,24 @@ const FreelancerDashboard = () => {
             </div>
             <div className="space-y-4">
                 {[
-                  { title: "Proposal Submitted", detail: "Next-Gen Fintech Dashboard", time: "2h ago", icon: Target, color: "text-teal", bg: "bg-teal/5" },
-                  { title: "Interview Request", detail: "Global E-commerce Expansion", time: "5h ago", icon: MessageSquare, color: "text-orange", bg: "bg-orange/5" },
-                  { title: "Contract Finalized", detail: "AI Search Engine Audit", time: "1d ago", icon: Briefcase, color: "text-navy", bg: "bg-navy/5" }
-                ].map((act, i) => (
-                  <div key={i} className="bento-card bg-white border border-slate-100 p-4 flex items-center gap-4 hover:bg-slate-50 transition-all">
-                    <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${act.bg}`}>
-                      <act.icon className={`h-5 w-5 ${act.color}`} />
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center w-full">
-                        <p className="text-xs font-black text-navy">{act.title}</p>
-                        <span className="text-[9px] font-bold text-slate-400 ml-12">{act.time}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-500 font-medium truncate max-w-[180px]">{act.detail}</p>
-                    </div>
-                  </div>
-                ))}
+                   { title: "Proposal Submitted", detail: "Next-Gen Fintech Dashboard", time: "2h ago", icon: Target, color: "text-teal", bg: "bg-teal/5", url: "/my-proposals" },
+                   { title: "Interview Request", detail: "Global E-commerce Expansion", time: "5h ago", icon: MessageSquare, color: "text-orange", bg: "bg-orange/5", url: "/messages" },
+                   { title: "Contract Finalized", detail: "AI Search Engine Audit", time: "1d ago", icon: Briefcase, color: "text-navy", bg: "bg-navy/5", url: "/earnings" }
+                 ].map((act, i) => (
+                   <div key={i} onClick={() => navigate(act.url)} className="bento-card bg-white border border-slate-100 p-4 flex items-center gap-4 hover:bg-slate-50 hover:border-teal/30 hover:shadow-soft transition-all cursor-pointer active:scale-95">
+                     <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${act.bg}`}>
+                       <act.icon className={`h-5 w-5 ${act.color}`} />
+                     </div>
+                     <div>
+                       <div className="flex justify-between items-center w-full">
+                         <p className="text-xs font-black text-navy">{act.title}</p>
+                         <span className="text-[9px] font-bold text-slate-400 ml-12">{act.time}</span>
+                       </div>
+                       <p className="text-[11px] text-slate-500 font-medium truncate max-w-[180px]">{act.detail}</p>
+                     </div>
+                     <ArrowRight className="h-4 w-4 text-slate-300 ml-auto shrink-0" />
+                   </div>
+                 ))}
             </div>
           </div>
         </div>
