@@ -47,7 +47,8 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const apiUrl = `http://localhost:5000/api/auth/login`;
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const apiUrl = `${baseUrl}/api/auth/login`;
       const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

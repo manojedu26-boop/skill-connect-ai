@@ -74,7 +74,8 @@ const DomainSelection = () => {
       const token = localStorage.getItem("skillswap_token");
       if (!token) throw new Error("No session found");
 
-      const apiUrl = `http://localhost:5000/api/auth/profile`;
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const apiUrl = `${baseUrl}/api/auth/profile`;
       const response = await fetch(apiUrl, {
         method: "PATCH",
         headers: {
