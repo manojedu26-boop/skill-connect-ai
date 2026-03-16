@@ -11,7 +11,7 @@ const RoleProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userStr = localStorage.getItem("skillswap_user");
+    const userStr = localStorage.getItem("vistaar_user");
     if (userStr) {
       try {
         const user = JSON.parse(userStr);

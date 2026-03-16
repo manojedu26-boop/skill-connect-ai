@@ -5,7 +5,7 @@ export default function DashboardRedirect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("skillswap_user");
+    const userStr = localStorage.getItem("vistaar_user");
     if (!userStr) {
       navigate("/", { replace: true });
       return;

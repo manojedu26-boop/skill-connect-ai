@@ -19,7 +19,7 @@ export default function FloatingBot() {
     {
       id: "1",
       role: "assistant",
-      content: "Hi! I'm your global SkillSwap AI assistant. How can I help you navigate or find something today?",
+      content: "Hi! I'm your global Vistaar AI assistant. How can I help you navigate or find something today?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -27,7 +27,7 @@ export default function FloatingBot() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const user = userStr ? JSON.parse(userStr) : { role: "client", tier: "free" };
   const role = user?.role || "client";
 
@@ -51,7 +51,7 @@ export default function FloatingBot() {
     if (!input.trim() || isTyping) return;
 
     const envKey = import.meta.env.VITE_GEMINI_API_KEY;
-    const apiKey = localStorage.getItem("skillswap_gemini_key") || envKey;
+    const apiKey = localStorage.getItem("vistaar_gemini_key") || envKey;
     if (!apiKey) {
       toast.error("Please add your Gemini API Key in the AI Assistant tab first.");
       return;
@@ -65,11 +65,11 @@ export default function FloatingBot() {
     
     // Simulate Free Tier Limits
     if (user.tier !== "premium") {
-      const usageCount = parseInt(localStorage.getItem("skillswap_ai_usage") || "0");
+      const usageCount = parseInt(localStorage.getItem("vistaar_ai_usage") || "0");
       if (usageCount >= 10) {
         setMessages((prev) => [
           ...prev,
-          { id: (Date.now() + 1).toString(), role: "assistant", content: "⚠️ **Daily Limit Reached!**\n\nYou have used all 10 of your free AI requests for today. Upgrade to **SkillSwap Pro** for unlimited access to AI Smart Matching, Proposal generation, and more!" },
+          { id: (Date.now() + 1).toString(), role: "assistant", content: "⚠️ **Daily Limit Reached!**\n\nYou have used all 10 of your free AI requests for today. Upgrade to **Vistaar Pro** for unlimited access to AI Smart Matching, Proposal generation, and more!" },
         ]);
         toast("Upgrade to Pro", {
           description: "You've reached your daily AI limit.",
@@ -80,7 +80,7 @@ export default function FloatingBot() {
         });
         return;
       }
-      localStorage.setItem("skillswap_ai_usage", (usageCount + 1).toString());
+      localStorage.setItem("vistaar_ai_usage", (usageCount + 1).toString());
     }
 
     setIsTyping(true);
@@ -88,7 +88,7 @@ export default function FloatingBot() {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const prompt = `You are a helpful, enthusiastic AI assistant for a platform called SkillSwap, which connects freelancers with clients. Keep your answers concise, friendly, and structured. Use markdown formatting. Answer this: ${startInput}`;
+      const prompt = `You are a helpful, enthusiastic AI assistant for a platform called Vistaar, which connects freelancers with clients. Keep your answers concise, friendly, and structured. Use markdown formatting. Answer this: ${startInput}`;
       
       const result = await model.generateContent(prompt);
       const response = await result.response;
@@ -125,7 +125,7 @@ export default function FloatingBot() {
                   <Bot className="h-4 w-4 text-primary-foreground" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground">SkillSwap Bot</h3>
+                  <h3 className="text-sm font-semibold text-foreground">Vistaar Bot</h3>
                   <p className="text-xs text-success">Online</p>
                 </div>
               </div>

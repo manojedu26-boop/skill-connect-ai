@@ -72,11 +72,11 @@ function AppSidebar({ onUpgrade }: { onUpgrade: () => void }) {
   const [role, setRole] = useState<"client" | "freelancer" | null>(null);
 
   useEffect(() => {
-    const userStr = localStorage.getItem("skillswap_user");
+    const userStr = localStorage.getItem("vistaar_user");
     if (userStr) setRole(JSON.parse(userStr).role);
 
     const handleUpdate = () => {
-      const updatedStr = localStorage.getItem("skillswap_user");
+      const updatedStr = localStorage.getItem("vistaar_user");
       if (updatedStr) setRole(JSON.parse(updatedStr).role);
     };
     window.addEventListener("user_updated", handleUpdate);
@@ -151,7 +151,7 @@ function AppSidebar({ onUpgrade }: { onUpgrade: () => void }) {
               <SidebarMenuButton asChild>
                 <button
                   onClick={() => {
-                    localStorage.removeItem("skillswap_user");
+                    localStorage.removeItem("vistaar_user");
                     navigate("/");
                   }}
                   className="flex items-center gap-4 rounded-2xl px-4 py-3 text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all w-full"
@@ -177,7 +177,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const loadUser = () => {
-      const userStr = localStorage.getItem("skillswap_user");
+      const userStr = localStorage.getItem("vistaar_user");
       setUser(userStr ? JSON.parse(userStr) : null);
     };
     loadUser();

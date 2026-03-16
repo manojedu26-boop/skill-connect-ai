@@ -59,7 +59,7 @@ const recommendations = [
 
 export default function Portfolio() {
   const navigate = useNavigate();
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const user = userStr ? JSON.parse(userStr) : null;
   const [selectedProject, setSelectedProject] = useState<typeof portfolioProjects[0] | null>(null);
 
@@ -74,11 +74,11 @@ export default function Portfolio() {
     setTimeout(() => {
       toast.success("CV Ready!", { id: "cv-gen", description: "Your professional CV has been generated. Downloading now." });
       // Create CV content
-      const cvContent = `${user?.firstName || 'Jake'} ${user?.lastName || 'Richards'} - Professional CV\n\nPortfolio: SkillSwap Technical Archive\n\nFeatured Projects:\n${portfolioProjects.map(p => `• ${p.title}\n  ${p.description}\n  Impact: ${p.impact}\n  Tech: ${p.tech.join(', ')}`).join('\n\n')}\n\nOpen Source Contributions:\n${contributions.map(c => `• ${c.repo}: ${c.description}`).join('\n')}\n\nExpert Recommendations:\n${recommendations.map(r => `• ${r.name} (${r.role}): ${r.text}`).join('\n\n')}`;
+      const cvContent = `${user?.firstName || 'Jake'} ${user?.lastName || 'Richards'} - Professional CV\n\nPortfolio: Vistaar Technical Archive\n\nFeatured Projects:\n${portfolioProjects.map(p => `• ${p.title}\n  ${p.description}\n  Impact: ${p.impact}\n  Tech: ${p.tech.join(', ')}`).join('\n\n')}\n\nOpen Source Contributions:\n${contributions.map(c => `• ${c.repo}: ${c.description}`).join('\n')}\n\nExpert Recommendations:\n${recommendations.map(r => `• ${r.name} (${r.role}): ${r.text}`).join('\n\n')}`;
       const blob = new Blob([cvContent], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url; a.download = "SkillSwap_CV.txt"; a.click();
+      a.href = url; a.download = "Vistaar_CV.txt"; a.click();
       URL.revokeObjectURL(url);
     }, 2000);
   };

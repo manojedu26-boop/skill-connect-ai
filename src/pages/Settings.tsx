@@ -31,7 +31,7 @@ const SettingsPage = () => {
   const portfolioRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("skillswap_user");
+    const storedUser = localStorage.getItem("vistaar_user");
     if (storedUser) {
       setUser({ ...user, ...JSON.parse(storedUser) });
     }
@@ -71,7 +71,7 @@ const SettingsPage = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     const updatedUser = { ...user, workHistory, education };
-    localStorage.setItem("skillswap_user", JSON.stringify(updatedUser));
+    localStorage.setItem("vistaar_user", JSON.stringify(updatedUser));
     window.dispatchEvent(new Event("user_updated"));
     toast.success("Profile optimization complete.");
   };

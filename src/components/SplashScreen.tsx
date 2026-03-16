@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
   const [showLogo, setShowLogo] = useState(false);
   const [showText, setShowText] = useState(false);
-  const appName = "SkillSwap";
+  const appName = "Vistaar";
 
   useEffect(() => {
     // Stage 1: Blank for 0.7s

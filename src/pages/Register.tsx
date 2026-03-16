@@ -32,8 +32,8 @@ const Register = () => {
         return;
       }
 
-      localStorage.setItem("skillswap_token", data.token);
-      localStorage.setItem("skillswap_user", JSON.stringify(data.user));
+      localStorage.setItem("vistaar_token", data.token);
+      localStorage.setItem("vistaar_user", JSON.stringify(data.user));
       toast.success("Registration successful!");
       window.dispatchEvent(new Event("user_updated")); 
       navigate("/select-domain");
@@ -54,7 +54,7 @@ const Register = () => {
 
       <div className="mx-auto w-full max-w-md">
         <h1 className="mb-2 text-3xl font-bold text-foreground">Register</h1>
-        <p className="mb-6 text-muted-foreground">Create your SkillSwap account.</p>
+        <p className="mb-6 text-muted-foreground">Create your Vistaar account.</p>
 
         <div className="mb-6 flex gap-2 rounded-xl bg-muted p-1">
           {(["freelancer", "client"] as const).map((r) => (

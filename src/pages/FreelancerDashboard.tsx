@@ -17,7 +17,7 @@ const stats = [
 
 const FreelancerDashboard = () => {
   const navigate = useNavigate();
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const user = userStr ? JSON.parse(userStr) : null;
   const firstName = user?.firstName || "Jake";
 

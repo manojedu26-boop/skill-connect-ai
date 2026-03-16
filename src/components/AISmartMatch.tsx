@@ -17,7 +17,7 @@ export default function AISmartMatch() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("skillswap_user");
+    const userStr = localStorage.getItem("vistaar_user");
     if (userStr) {
       const u = JSON.parse(userStr);
       if (u.role) setUserRole(u.role);
@@ -26,7 +26,7 @@ export default function AISmartMatch() {
 
   const handleSmartMatch = async () => {
     const envKey = import.meta.env.VITE_GEMINI_API_KEY;
-    const apiKey = localStorage.getItem("skillswap_gemini_key") || envKey;
+    const apiKey = localStorage.getItem("vistaar_gemini_key") || envKey;
     if (!apiKey) {
       toast.error("Please set your Gemini API Key in the AI Assistant tab.");
       return;
@@ -42,7 +42,7 @@ export default function AISmartMatch() {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
-      const userStr = localStorage.getItem("skillswap_user") || '{"skills": "React, Node.js"}';
+      const userStr = localStorage.getItem("vistaar_user") || '{"skills": "React, Node.js"}';
       
       let contextPool = "";
       if (userRole === "freelancer") {

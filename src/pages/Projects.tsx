@@ -90,15 +90,15 @@ const Projects = () => {
       date: new Date().toLocaleDateString()
     };
     
-    const existing = JSON.parse(localStorage.getItem("skillswap_proposals") || "[]");
-    localStorage.setItem("skillswap_proposals", JSON.stringify([...existing, newProposal]));
+    const existing = JSON.parse(localStorage.getItem("vistaar_proposals") || "[]");
+    localStorage.setItem("vistaar_proposals", JSON.stringify([...existing, newProposal]));
     
     toast.success("Proposal submitted successfully!");
     setProposalModalOpen(false);
     setProposalData({ coverLetter: "", bidAmount: "", duration: "" });
   };
 
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const user = userStr ? JSON.parse(userStr) : null;
   const isClient = user?.role === 'client';
 

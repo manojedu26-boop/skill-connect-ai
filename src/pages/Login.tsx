@@ -57,8 +57,8 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
 
-      localStorage.setItem("skillswap_token", data.token);
-      localStorage.setItem("skillswap_user", JSON.stringify(data.user));
+      localStorage.setItem("vistaar_token", data.token);
+      localStorage.setItem("vistaar_user", JSON.stringify(data.user));
       window.dispatchEvent(new Event("user_updated"));
       
       toast.success("Welcome back!");

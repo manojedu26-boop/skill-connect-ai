@@ -20,7 +20,7 @@ const FreelancerProfile = () => {
   const navigate = useNavigate();
   const freelancer = mockFreelancers.find(f => f.id === id);
   const [showHireModal, setShowHireModal] = useState(false);
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const role = userStr ? JSON.parse(userStr).role : null;
 
   if (!freelancer) {

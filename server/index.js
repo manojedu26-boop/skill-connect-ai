@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 // Health Check
 app.get('/api/health', (req, res) => {
   res.json({ 
-    status: 'SkillSwap Backend is running',
+    status: 'Vistaar Backend is running',
     supabase_connected: !!process.env.SUPABASE_URL,
     supabase_url: process.env.SUPABASE_URL ? `${process.env.SUPABASE_URL.substring(0, 15)}...` : 'Not Connected'
   });

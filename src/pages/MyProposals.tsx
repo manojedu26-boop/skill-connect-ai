@@ -12,9 +12,9 @@ export default function MyProposals() {
       { id: '1', projectTitle: 'E-commerce Platform Architecture', client: 'TechCorp', status: 'accepted', bidAmount: 1200, duration: '2 weeks', date: '2026-03-10', coverLetter: 'I can build a scalable Next.js architecture with proper state management...' },
       { id: '2', projectTitle: 'AI Chatbot Integration', client: 'InnovateAI', status: 'submitted', bidAmount: 850, duration: '1 week', date: '2026-03-12', coverLetter: 'Highly experienced in OpenAI and Gemini API integrations...' }
     ];
-    const saved = localStorage.getItem("skillswap_proposals");
+    const saved = localStorage.getItem("vistaar_proposals");
     if (!saved) {
-      localStorage.setItem("skillswap_proposals", JSON.stringify(defaultProposals));
+      localStorage.setItem("vistaar_proposals", JSON.stringify(defaultProposals));
       setProposals(defaultProposals);
     } else {
       setProposals(JSON.parse(saved));

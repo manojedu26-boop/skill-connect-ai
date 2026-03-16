@@ -75,7 +75,7 @@ export default function Messages() {
 
   const summarizeConversation = async () => {
     const envKey = import.meta.env.VITE_GEMINI_API_KEY;
-    const apiKey = localStorage.getItem("skillswap_gemini_key") || envKey;
+    const apiKey = localStorage.getItem("vistaar_gemini_key") || envKey;
     if (!apiKey) {
       toast.error("Please add a Gemini API Key to use AI Summarization.");
       return;
@@ -102,7 +102,7 @@ export default function Messages() {
   const assistWithWriting = async () => {
     if (!input.trim()) return;
     const envKey = import.meta.env.VITE_GEMINI_API_KEY;
-    const apiKey = localStorage.getItem("skillswap_gemini_key") || envKey;
+    const apiKey = localStorage.getItem("vistaar_gemini_key") || envKey;
     if (!apiKey) return toast.error("Gemini API Key missing.");
 
     setIsAiSuggesting(true);

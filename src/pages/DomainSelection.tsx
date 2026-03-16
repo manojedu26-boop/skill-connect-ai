@@ -71,7 +71,7 @@ const DomainSelection = () => {
     setSelected(id);
     
     try {
-      const token = localStorage.getItem("skillswap_token");
+      const token = localStorage.getItem("vistaar_token");
       if (!token) throw new Error("No session found");
 
       const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -88,11 +88,11 @@ const DomainSelection = () => {
       if (!response.ok) throw new Error("Failed to update profile");
 
       // Update local storage user for UI consistency
-      const userStr = localStorage.getItem("skillswap_user");
+      const userStr = localStorage.getItem("vistaar_user");
       if (userStr) {
         const user = JSON.parse(userStr);
         user.domain = id;
-        localStorage.setItem("skillswap_user", JSON.stringify(user));
+        localStorage.setItem("vistaar_user", JSON.stringify(user));
         window.dispatchEvent(new Event("user_updated"));
       }
       
@@ -102,11 +102,11 @@ const DomainSelection = () => {
     } catch (error) {
       console.error("Error saving domain:", error);
       // Fallback: update local storage and navigate anyway to not block user
-      const userStr = localStorage.getItem("skillswap_user");
+      const userStr = localStorage.getItem("vistaar_user");
       if (userStr) {
         const user = JSON.parse(userStr);
         user.domain = id;
-        localStorage.setItem("skillswap_user", JSON.stringify(user));
+        localStorage.setItem("vistaar_user", JSON.stringify(user));
         window.dispatchEvent(new Event("user_updated"));
       }
       setTimeout(() => {

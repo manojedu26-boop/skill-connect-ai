@@ -157,7 +157,7 @@ function GoogleAuthCallback() {
         const meta = user.user_metadata;
 
         // Store session locally
-        const skillswapUser = {
+        const vistaarUser = {
           id: user.id,
           email: user.email,
           firstName: meta?.full_name?.split(" ")[0] || meta?.name?.split(" ")[0] || "User",
@@ -165,8 +165,8 @@ function GoogleAuthCallback() {
           photo: meta?.avatar_url || meta?.picture || null,
           role: "freelancer", // Default, user will select in domain selection
         };
-        localStorage.setItem("skillswap_token", session.access_token);
-        localStorage.setItem("skillswap_user", JSON.stringify(skillswapUser));
+        localStorage.setItem("vistaar_token", session.access_token);
+        localStorage.setItem("vistaar_user", JSON.stringify(vistaarUser));
         window.dispatchEvent(new Event("user_updated"));
         
         setStatus("success");

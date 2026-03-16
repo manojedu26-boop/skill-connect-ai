@@ -47,7 +47,7 @@ export default function PremiumPaymentModal({ open, onOpenChange }: PremiumPayme
   const plans = [
     {
       id: "pro",
-      name: "SkillSwap Pro",
+      name: "Vistaar Pro",
       price: "$19",
       features: ["Advanced AI Matching", "Priority Proposals", "2.5x Visibility", "Pro Badge"],
       color: "bg-teal",
@@ -55,7 +55,7 @@ export default function PremiumPaymentModal({ open, onOpenChange }: PremiumPayme
     },
     {
       id: "elite",
-      name: "SkillSwap Elite",
+      name: "Vistaar Elite",
       price: "$49",
       features: ["Neural Match Priority", "Dedicated Success Manager", "Unlimited AI Sourcing", "Global Rank Highlight"],
       color: "bg-orange",

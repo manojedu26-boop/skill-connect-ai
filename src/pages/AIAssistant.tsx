@@ -18,7 +18,7 @@ const initialMessages: AIMessage[] = [
   {
     id: "1",
     role: "assistant",
-    content: "👋 Hi! I'm SkillSwap AI. I can help you:\n\n• **Improve your skill descriptions** to attract more clients\n• **Write better project descriptions** for optimal matches\n• **Find the best freelancers** for your project\n\nWhat would you like help with?",
+    content: "👋 Hi! I'm Vistaar AI. I can help you:\n\n• **Improve your skill descriptions** to attract more clients\n• **Write better project descriptions** for optimal matches\n• **Find the best freelancers** for your project\n\nWhat would you like help with?",
   },
 ];
 
@@ -33,12 +33,12 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState<AIMessage[]>(initialMessages);
   const [input, setInput] = useState("");
   const envKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-  const [apiKeyInput, setApiKeyInput] = useState(localStorage.getItem("skillswap_gemini_key") || envKey);
+  const [apiKeyInput, setApiKeyInput] = useState(localStorage.getItem("vistaar_gemini_key") || envKey);
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const saveApiKey = () => {
-    localStorage.setItem("skillswap_gemini_key", apiKeyInput);
+    localStorage.setItem("vistaar_gemini_key", apiKeyInput);
     toast.success("Gemini API Key saved!");
   };
 
@@ -64,7 +64,7 @@ const AIAssistant = () => {
     try {
       const genAI = new GoogleGenerativeAI(apiKeyInput);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const prompt = `You are a helpful, enthusiastic AI assistant for a platform called SkillSwap, which connects freelancers with clients. Keep your answers concise, friendly, and structured. Use markdown formatting. Answer this: ${startInput}`;
+      const prompt = `You are a helpful, enthusiastic AI assistant for a platform called Vistaar, which connects freelancers with clients. Keep your answers concise, friendly, and structured. Use markdown formatting. Answer this: ${startInput}`;
 
       const result = await model.generateContent(prompt);
       const text = await result.response.text();

@@ -38,7 +38,7 @@ const BrandAnimation = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 
-  const text = "SkillSwap";
+  const text = "Vistaar";
 
   return (
     <div 
@@ -147,7 +147,7 @@ const Onboarding = () => {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary neon-glow-emerald">
               <Sparkles className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-foreground">SkillSwap</span>
+            <span className="text-2xl font-black tracking-tighter text-foreground">Vistaar</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
@@ -250,7 +250,7 @@ const Onboarding = () => {
                 transition={{ delay: 0.2 }}
                 className="text-xl text-muted-foreground leading-relaxed max-w-xl"
               >
-                Connect with vetted software engineers, designers, and project managers. SkillSwap uses Gemini AI to match you with perfection.
+                Connect with vetted software engineers, designers, and project managers. Vistaar uses Gemini AI to match you with perfection.
               </motion.p>
 
               {/* Centered Auth Buttons replacing Search Bar */}
@@ -265,7 +265,7 @@ const Onboarding = () => {
                   className="rounded-full px-10 h-14 text-lg font-bold neon-glow-emerald hover:scale-105 transition-transform"
                   onClick={() => navigate("/register")}
                 >
-                  Join SkillSwap <ArrowRight className="ml-2 h-5 w-5" />
+                  Join Vistaar <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
                    variant="outline" 
@@ -287,7 +287,7 @@ const Onboarding = () => {
                     ))}
                  </div>
                  <div className="text-sm font-medium">
-                    <p className="text-foreground">5,000+ Teams trust SkillSwap</p>
+                    <p className="text-foreground">5,000+ Teams trust Vistaar</p>
                     <div className="flex items-center gap-1 text-primary">
                        {"★★★★★"}<span className="text-muted-foreground ml-1">4.9/5 Rating</span>
                     </div>
@@ -447,7 +447,7 @@ const Onboarding = () => {
       {/* Footer */}
       <footer className="border-t border-white/5 py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-muted-foreground">© 2026 SkillSwap AI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2026 Vistaar AI. All rights reserved.</p>
           <div className="flex gap-8 text-sm font-medium text-muted-foreground">
             <a href="#" className="hover:text-foreground">Terms</a>
             <a href="#" className="hover:text-foreground">Privacy</a>

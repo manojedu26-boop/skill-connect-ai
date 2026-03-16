@@ -18,7 +18,7 @@ const stats = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const userStr = localStorage.getItem("skillswap_user");
+  const userStr = localStorage.getItem("vistaar_user");
   const user = userStr ? JSON.parse(userStr) : null;
   const firstName = user?.firstName || "";
 
@@ -27,7 +27,7 @@ const Dashboard = () => {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Welcome back{firstName ? `, ${firstName}` : ""}! 👋</h1>
-          <p className="text-muted-foreground">Here's what's happening on SkillSwap today.</p>
+          <p className="text-muted-foreground">Here's what's happening on Vistaar today.</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

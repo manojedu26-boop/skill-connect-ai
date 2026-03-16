@@ -18,7 +18,7 @@ export default function AIGigGenerator({ onClose, onApply }: { onClose: () => vo
     if (!prompt) return;
     
     const envKey = import.meta.env.VITE_GEMINI_API_KEY;
-    const apiKey = localStorage.getItem("skillswap_gemini_key") || envKey;
+    const apiKey = localStorage.getItem("vistaar_gemini_key") || envKey;
     if (!apiKey) {
       toast.error("Please set your Gemini API Key in the AI Assistant tab.");
       return;
@@ -26,11 +26,11 @@ export default function AIGigGenerator({ onClose, onApply }: { onClose: () => vo
 
     setIsGenerating(true);
     
-    const userStr = localStorage.getItem("skillswap_user");
+    const userStr = localStorage.getItem("vistaar_user");
     const user = userStr ? JSON.parse(userStr) : { tier: "free" };
     
     if (user.tier !== "premium") {
-      const usageCount = parseInt(localStorage.getItem("skillswap_ai_usage") || "0");
+      const usageCount = parseInt(localStorage.getItem("vistaar_ai_usage") || "0");
       if (usageCount >= 10) {
         setIsGenerating(false);
         toast.error("Daily Limit Reached", {
@@ -45,13 +45,13 @@ export default function AIGigGenerator({ onClose, onApply }: { onClose: () => vo
         });
         return;
       }
-      localStorage.setItem("skillswap_ai_usage", (usageCount + 1).toString());
+      localStorage.setItem("vistaar_ai_usage", (usageCount + 1).toString());
     }
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const command = `You are a professional gig copywriter for SkillSwap. Generate a comprehensive and attractive gig/project. 
+      const command = `You are a professional gig copywriter for Vistaar. Generate a comprehensive and attractive gig/project. 
       Topic: ${prompt}
       Return ONLY a raw JSON object with these exact keys: "title", "description" (markdown), "price" (string like "$500"), "tags" (array of exactly 4 string keywords). Do not include markdown codeblocks or any additional text.`;
       
